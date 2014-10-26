@@ -1,0 +1,1730 @@
+# Getting and Cleaning Data Course Project - Submittedd run_analysis.R Script
+
+## run_analysis.R description
+
+make a tidy dataset from the train set and another from the test set with the same columns, merge train and test tidy datasets together and write the resulting merged tidy dataset to a text file
+
+Tidy dataset are created for train and test data as follow:
+- read subject id
+- column append activity code (code are replaced by corresponding activity labels)
+- column append read activity and features (column names are replaced by corresponding feature labels)
+- column append 3 sets of sensor signals XYZ data
+
+
+## code book describing the variables
+
+- subject_id : volunteer on which experiments have been carried out
+- activity : activity (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) wearing a smartphone (Samsung Galaxy S II) on the waist
+- tBodyAcc-mean()-X : tBodyAcc-mean()-X feature
+- tBodyAcc-mean()-Y : tBodyAcc-mean()-Y feature
+- tBodyAcc-mean()-Z : tBodyAcc-mean()-Z feature
+- tBodyAcc-std()-X : tBodyAcc-std()-X feature
+- tBodyAcc-std()-Y : tBodyAcc-std()-Y feature
+- tBodyAcc-std()-Z : tBodyAcc-std()-Z feature
+- tBodyAcc-mad()-X : tBodyAcc-mad()-X feature
+- tBodyAcc-mad()-Y : tBodyAcc-mad()-Y feature
+- tBodyAcc-mad()-Z : tBodyAcc-mad()-Z feature
+- tBodyAcc-max()-X : tBodyAcc-max()-X feature
+- tBodyAcc-max()-Y : tBodyAcc-max()-Y feature
+- tBodyAcc-max()-Z : tBodyAcc-max()-Z feature
+- tBodyAcc-min()-X : tBodyAcc-min()-X feature
+- tBodyAcc-min()-Y : tBodyAcc-min()-Y feature
+- tBodyAcc-min()-Z : tBodyAcc-min()-Z feature
+- tBodyAcc-sma() : tBodyAcc-sma() feature
+- tBodyAcc-energy()-X : tBodyAcc-energy()-X feature
+- tBodyAcc-energy()-Y : tBodyAcc-energy()-Y feature
+- tBodyAcc-energy()-Z : tBodyAcc-energy()-Z feature
+- tBodyAcc-iqr()-X : tBodyAcc-iqr()-X feature
+- tBodyAcc-iqr()-Y : tBodyAcc-iqr()-Y feature
+- tBodyAcc-iqr()-Z : tBodyAcc-iqr()-Z feature
+- tBodyAcc-entropy()-X : tBodyAcc-entropy()-X feature
+- tBodyAcc-entropy()-Y : tBodyAcc-entropy()-Y feature
+- tBodyAcc-entropy()-Z : tBodyAcc-entropy()-Z feature
+- tBodyAcc-arCoeff()-X,1 : tBodyAcc-arCoeff()-X,1 feature
+- tBodyAcc-arCoeff()-X,2 : tBodyAcc-arCoeff()-X,2 feature
+- tBodyAcc-arCoeff()-X,3 : tBodyAcc-arCoeff()-X,3 feature
+- tBodyAcc-arCoeff()-X,4 : tBodyAcc-arCoeff()-X,4 feature
+- tBodyAcc-arCoeff()-Y,1 : tBodyAcc-arCoeff()-Y,1 feature
+- tBodyAcc-arCoeff()-Y,2 : tBodyAcc-arCoeff()-Y,2 feature
+- tBodyAcc-arCoeff()-Y,3 : tBodyAcc-arCoeff()-Y,3 feature
+- tBodyAcc-arCoeff()-Y,4 : tBodyAcc-arCoeff()-Y,4 feature
+- tBodyAcc-arCoeff()-Z,1 : tBodyAcc-arCoeff()-Z,1 feature
+- tBodyAcc-arCoeff()-Z,2 : tBodyAcc-arCoeff()-Z,2 feature
+- tBodyAcc-arCoeff()-Z,3 : tBodyAcc-arCoeff()-Z,3 feature
+- tBodyAcc-arCoeff()-Z,4 : tBodyAcc-arCoeff()-Z,4 feature
+- tBodyAcc-correlation()-X,Y : tBodyAcc-correlation()-X,Y feature
+- tBodyAcc-correlation()-X,Z : tBodyAcc-correlation()-X,Z feature
+- tBodyAcc-correlation()-Y,Z : tBodyAcc-correlation()-Y,Z feature
+- tGravityAcc-mean()-X : tGravityAcc-mean()-X feature
+- tGravityAcc-mean()-Y : tGravityAcc-mean()-Y feature
+- tGravityAcc-mean()-Z : tGravityAcc-mean()-Z feature
+- tGravityAcc-std()-X : tGravityAcc-std()-X feature
+- tGravityAcc-std()-Y : tGravityAcc-std()-Y feature
+- tGravityAcc-std()-Z : tGravityAcc-std()-Z feature
+- tGravityAcc-mad()-X : tGravityAcc-mad()-X feature
+- tGravityAcc-mad()-Y : tGravityAcc-mad()-Y feature
+- tGravityAcc-mad()-Z : tGravityAcc-mad()-Z feature
+- tGravityAcc-max()-X : tGravityAcc-max()-X feature
+- tGravityAcc-max()-Y : tGravityAcc-max()-Y feature
+- tGravityAcc-max()-Z : tGravityAcc-max()-Z feature
+- tGravityAcc-min()-X : tGravityAcc-min()-X feature
+- tGravityAcc-min()-Y : tGravityAcc-min()-Y feature
+- tGravityAcc-min()-Z : tGravityAcc-min()-Z feature
+- tGravityAcc-sma() : tGravityAcc-sma() feature
+- tGravityAcc-energy()-X : tGravityAcc-energy()-X feature
+- tGravityAcc-energy()-Y : tGravityAcc-energy()-Y feature
+- tGravityAcc-energy()-Z : tGravityAcc-energy()-Z feature
+- tGravityAcc-iqr()-X : tGravityAcc-iqr()-X feature
+- tGravityAcc-iqr()-Y : tGravityAcc-iqr()-Y feature
+- tGravityAcc-iqr()-Z : tGravityAcc-iqr()-Z feature
+- tGravityAcc-entropy()-X : tGravityAcc-entropy()-X feature
+- tGravityAcc-entropy()-Y : tGravityAcc-entropy()-Y feature
+- tGravityAcc-entropy()-Z : tGravityAcc-entropy()-Z feature
+- tGravityAcc-arCoeff()-X,1 : tGravityAcc-arCoeff()-X,1 feature
+- tGravityAcc-arCoeff()-X,2 : tGravityAcc-arCoeff()-X,2 feature
+- tGravityAcc-arCoeff()-X,3 : tGravityAcc-arCoeff()-X,3 feature
+- tGravityAcc-arCoeff()-X,4 : tGravityAcc-arCoeff()-X,4 feature
+- tGravityAcc-arCoeff()-Y,1 : tGravityAcc-arCoeff()-Y,1 feature
+- tGravityAcc-arCoeff()-Y,2 : tGravityAcc-arCoeff()-Y,2 feature
+- tGravityAcc-arCoeff()-Y,3 : tGravityAcc-arCoeff()-Y,3 feature
+- tGravityAcc-arCoeff()-Y,4 : tGravityAcc-arCoeff()-Y,4 feature
+- tGravityAcc-arCoeff()-Z,1 : tGravityAcc-arCoeff()-Z,1 feature
+- tGravityAcc-arCoeff()-Z,2 : tGravityAcc-arCoeff()-Z,2 feature
+- tGravityAcc-arCoeff()-Z,3 : tGravityAcc-arCoeff()-Z,3 feature
+- tGravityAcc-arCoeff()-Z,4 : tGravityAcc-arCoeff()-Z,4 feature
+- tGravityAcc-correlation()-X,Y : tGravityAcc-correlation()-X,Y feature
+- tGravityAcc-correlation()-X,Z : tGravityAcc-correlation()-X,Z feature
+- tGravityAcc-correlation()-Y,Z : tGravityAcc-correlation()-Y,Z feature
+- tBodyAccJerk-mean()-X : tBodyAccJerk-mean()-X feature
+- tBodyAccJerk-mean()-Y : tBodyAccJerk-mean()-Y feature
+- tBodyAccJerk-mean()-Z : tBodyAccJerk-mean()-Z feature
+- tBodyAccJerk-std()-X : tBodyAccJerk-std()-X feature
+- tBodyAccJerk-std()-Y : tBodyAccJerk-std()-Y feature
+- tBodyAccJerk-std()-Z : tBodyAccJerk-std()-Z feature
+- tBodyAccJerk-mad()-X : tBodyAccJerk-mad()-X feature
+- tBodyAccJerk-mad()-Y : tBodyAccJerk-mad()-Y feature
+- tBodyAccJerk-mad()-Z : tBodyAccJerk-mad()-Z feature
+- tBodyAccJerk-max()-X : tBodyAccJerk-max()-X feature
+- tBodyAccJerk-max()-Y : tBodyAccJerk-max()-Y feature
+- tBodyAccJerk-max()-Z : tBodyAccJerk-max()-Z feature
+- tBodyAccJerk-min()-X : tBodyAccJerk-min()-X feature
+- tBodyAccJerk-min()-Y : tBodyAccJerk-min()-Y feature
+- tBodyAccJerk-min()-Z : tBodyAccJerk-min()-Z feature
+- tBodyAccJerk-sma() : tBodyAccJerk-sma() feature
+- tBodyAccJerk-energy()-X : tBodyAccJerk-energy()-X feature
+- tBodyAccJerk-energy()-Y : tBodyAccJerk-energy()-Y feature
+- tBodyAccJerk-energy()-Z : tBodyAccJerk-energy()-Z feature
+- tBodyAccJerk-iqr()-X : tBodyAccJerk-iqr()-X feature
+- tBodyAccJerk-iqr()-Y : tBodyAccJerk-iqr()-Y feature
+- tBodyAccJerk-iqr()-Z : tBodyAccJerk-iqr()-Z feature
+- tBodyAccJerk-entropy()-X : tBodyAccJerk-entropy()-X feature
+- tBodyAccJerk-entropy()-Y : tBodyAccJerk-entropy()-Y feature
+- tBodyAccJerk-entropy()-Z : tBodyAccJerk-entropy()-Z feature
+- tBodyAccJerk-arCoeff()-X,1 : tBodyAccJerk-arCoeff()-X,1 feature
+- tBodyAccJerk-arCoeff()-X,2 : tBodyAccJerk-arCoeff()-X,2 feature
+- tBodyAccJerk-arCoeff()-X,3 : tBodyAccJerk-arCoeff()-X,3 feature
+- tBodyAccJerk-arCoeff()-X,4 : tBodyAccJerk-arCoeff()-X,4 feature
+- tBodyAccJerk-arCoeff()-Y,1 : tBodyAccJerk-arCoeff()-Y,1 feature
+- tBodyAccJerk-arCoeff()-Y,2 : tBodyAccJerk-arCoeff()-Y,2 feature
+- tBodyAccJerk-arCoeff()-Y,3 : tBodyAccJerk-arCoeff()-Y,3 feature
+- tBodyAccJerk-arCoeff()-Y,4 : tBodyAccJerk-arCoeff()-Y,4 feature
+- tBodyAccJerk-arCoeff()-Z,1 : tBodyAccJerk-arCoeff()-Z,1 feature
+- tBodyAccJerk-arCoeff()-Z,2 : tBodyAccJerk-arCoeff()-Z,2 feature
+- tBodyAccJerk-arCoeff()-Z,3 : tBodyAccJerk-arCoeff()-Z,3 feature
+- tBodyAccJerk-arCoeff()-Z,4 : tBodyAccJerk-arCoeff()-Z,4 feature
+- tBodyAccJerk-correlation()-X,Y : tBodyAccJerk-correlation()-X,Y feature
+- tBodyAccJerk-correlation()-X,Z : tBodyAccJerk-correlation()-X,Z feature
+- tBodyAccJerk-correlation()-Y,Z : tBodyAccJerk-correlation()-Y,Z feature
+- tBodyGyro-mean()-X : tBodyGyro-mean()-X feature
+- tBodyGyro-mean()-Y : tBodyGyro-mean()-Y feature
+- tBodyGyro-mean()-Z : tBodyGyro-mean()-Z feature
+- tBodyGyro-std()-X : tBodyGyro-std()-X feature
+- tBodyGyro-std()-Y : tBodyGyro-std()-Y feature
+- tBodyGyro-std()-Z : tBodyGyro-std()-Z feature
+- tBodyGyro-mad()-X : tBodyGyro-mad()-X feature
+- tBodyGyro-mad()-Y : tBodyGyro-mad()-Y feature
+- tBodyGyro-mad()-Z : tBodyGyro-mad()-Z feature
+- tBodyGyro-max()-X : tBodyGyro-max()-X feature
+- tBodyGyro-max()-Y : tBodyGyro-max()-Y feature
+- tBodyGyro-max()-Z : tBodyGyro-max()-Z feature
+- tBodyGyro-min()-X : tBodyGyro-min()-X feature
+- tBodyGyro-min()-Y : tBodyGyro-min()-Y feature
+- tBodyGyro-min()-Z : tBodyGyro-min()-Z feature
+- tBodyGyro-sma() : tBodyGyro-sma() feature
+- tBodyGyro-energy()-X : tBodyGyro-energy()-X feature
+- tBodyGyro-energy()-Y : tBodyGyro-energy()-Y feature
+- tBodyGyro-energy()-Z : tBodyGyro-energy()-Z feature
+- tBodyGyro-iqr()-X : tBodyGyro-iqr()-X feature
+- tBodyGyro-iqr()-Y : tBodyGyro-iqr()-Y feature
+- tBodyGyro-iqr()-Z : tBodyGyro-iqr()-Z feature
+- tBodyGyro-entropy()-X : tBodyGyro-entropy()-X feature
+- tBodyGyro-entropy()-Y : tBodyGyro-entropy()-Y feature
+- tBodyGyro-entropy()-Z : tBodyGyro-entropy()-Z feature
+- tBodyGyro-arCoeff()-X,1 : tBodyGyro-arCoeff()-X,1 feature
+- tBodyGyro-arCoeff()-X,2 : tBodyGyro-arCoeff()-X,2 feature
+- tBodyGyro-arCoeff()-X,3 : tBodyGyro-arCoeff()-X,3 feature
+- tBodyGyro-arCoeff()-X,4 : tBodyGyro-arCoeff()-X,4 feature
+- tBodyGyro-arCoeff()-Y,1 : tBodyGyro-arCoeff()-Y,1 feature
+- tBodyGyro-arCoeff()-Y,2 : tBodyGyro-arCoeff()-Y,2 feature
+- tBodyGyro-arCoeff()-Y,3 : tBodyGyro-arCoeff()-Y,3 feature
+- tBodyGyro-arCoeff()-Y,4 : tBodyGyro-arCoeff()-Y,4 feature
+- tBodyGyro-arCoeff()-Z,1 : tBodyGyro-arCoeff()-Z,1 feature
+- tBodyGyro-arCoeff()-Z,2 : tBodyGyro-arCoeff()-Z,2 feature
+- tBodyGyro-arCoeff()-Z,3 : tBodyGyro-arCoeff()-Z,3 feature
+- tBodyGyro-arCoeff()-Z,4 : tBodyGyro-arCoeff()-Z,4 feature
+- tBodyGyro-correlation()-X,Y : tBodyGyro-correlation()-X,Y feature
+- tBodyGyro-correlation()-X,Z : tBodyGyro-correlation()-X,Z feature
+- tBodyGyro-correlation()-Y,Z : tBodyGyro-correlation()-Y,Z feature
+- tBodyGyroJerk-mean()-X : tBodyGyroJerk-mean()-X feature
+- tBodyGyroJerk-mean()-Y : tBodyGyroJerk-mean()-Y feature
+- tBodyGyroJerk-mean()-Z : tBodyGyroJerk-mean()-Z feature
+- tBodyGyroJerk-std()-X : tBodyGyroJerk-std()-X feature
+- tBodyGyroJerk-std()-Y : tBodyGyroJerk-std()-Y feature
+- tBodyGyroJerk-std()-Z : tBodyGyroJerk-std()-Z feature
+- tBodyGyroJerk-mad()-X : tBodyGyroJerk-mad()-X feature
+- tBodyGyroJerk-mad()-Y : tBodyGyroJerk-mad()-Y feature
+- tBodyGyroJerk-mad()-Z : tBodyGyroJerk-mad()-Z feature
+- tBodyGyroJerk-max()-X : tBodyGyroJerk-max()-X feature
+- tBodyGyroJerk-max()-Y : tBodyGyroJerk-max()-Y feature
+- tBodyGyroJerk-max()-Z : tBodyGyroJerk-max()-Z feature
+- tBodyGyroJerk-min()-X : tBodyGyroJerk-min()-X feature
+- tBodyGyroJerk-min()-Y : tBodyGyroJerk-min()-Y feature
+- tBodyGyroJerk-min()-Z : tBodyGyroJerk-min()-Z feature
+- tBodyGyroJerk-sma() : tBodyGyroJerk-sma() feature
+- tBodyGyroJerk-energy()-X : tBodyGyroJerk-energy()-X feature
+- tBodyGyroJerk-energy()-Y : tBodyGyroJerk-energy()-Y feature
+- tBodyGyroJerk-energy()-Z : tBodyGyroJerk-energy()-Z feature
+- tBodyGyroJerk-iqr()-X : tBodyGyroJerk-iqr()-X feature
+- tBodyGyroJerk-iqr()-Y : tBodyGyroJerk-iqr()-Y feature
+- tBodyGyroJerk-iqr()-Z : tBodyGyroJerk-iqr()-Z feature
+- tBodyGyroJerk-entropy()-X : tBodyGyroJerk-entropy()-X feature
+- tBodyGyroJerk-entropy()-Y : tBodyGyroJerk-entropy()-Y feature
+- tBodyGyroJerk-entropy()-Z : tBodyGyroJerk-entropy()-Z feature
+- tBodyGyroJerk-arCoeff()-X,1 : tBodyGyroJerk-arCoeff()-X,1 feature
+- tBodyGyroJerk-arCoeff()-X,2 : tBodyGyroJerk-arCoeff()-X,2 feature
+- tBodyGyroJerk-arCoeff()-X,3 : tBodyGyroJerk-arCoeff()-X,3 feature
+- tBodyGyroJerk-arCoeff()-X,4 : tBodyGyroJerk-arCoeff()-X,4 feature
+- tBodyGyroJerk-arCoeff()-Y,1 : tBodyGyroJerk-arCoeff()-Y,1 feature
+- tBodyGyroJerk-arCoeff()-Y,2 : tBodyGyroJerk-arCoeff()-Y,2 feature
+- tBodyGyroJerk-arCoeff()-Y,3 : tBodyGyroJerk-arCoeff()-Y,3 feature
+- tBodyGyroJerk-arCoeff()-Y,4 : tBodyGyroJerk-arCoeff()-Y,4 feature
+- tBodyGyroJerk-arCoeff()-Z,1 : tBodyGyroJerk-arCoeff()-Z,1 feature
+- tBodyGyroJerk-arCoeff()-Z,2 : tBodyGyroJerk-arCoeff()-Z,2 feature
+- tBodyGyroJerk-arCoeff()-Z,3 : tBodyGyroJerk-arCoeff()-Z,3 feature
+- tBodyGyroJerk-arCoeff()-Z,4 : tBodyGyroJerk-arCoeff()-Z,4 feature
+- tBodyGyroJerk-correlation()-X,Y : tBodyGyroJerk-correlation()-X,Y feature
+- tBodyGyroJerk-correlation()-X,Z : tBodyGyroJerk-correlation()-X,Z feature
+- tBodyGyroJerk-correlation()-Y,Z : tBodyGyroJerk-correlation()-Y,Z feature
+- tBodyAccMag-mean() : tBodyAccMag-mean() feature
+- tBodyAccMag-std() : tBodyAccMag-std() feature
+- tBodyAccMag-mad() : tBodyAccMag-mad() feature
+- tBodyAccMag-max() : tBodyAccMag-max() feature
+- tBodyAccMag-min() : tBodyAccMag-min() feature
+- tBodyAccMag-sma() : tBodyAccMag-sma() feature
+- tBodyAccMag-energy() : tBodyAccMag-energy() feature
+- tBodyAccMag-iqr() : tBodyAccMag-iqr() feature
+- tBodyAccMag-entropy() : tBodyAccMag-entropy() feature
+- tBodyAccMag-arCoeff()1 : tBodyAccMag-arCoeff()1 feature
+- tBodyAccMag-arCoeff()2 : tBodyAccMag-arCoeff()2 feature
+- tBodyAccMag-arCoeff()3 : tBodyAccMag-arCoeff()3 feature
+- tBodyAccMag-arCoeff()4 : tBodyAccMag-arCoeff()4 feature
+- tGravityAccMag-mean() : tGravityAccMag-mean() feature
+- tGravityAccMag-std() : tGravityAccMag-std() feature
+- tGravityAccMag-mad() : tGravityAccMag-mad() feature
+- tGravityAccMag-max() : tGravityAccMag-max() feature
+- tGravityAccMag-min() : tGravityAccMag-min() feature
+- tGravityAccMag-sma() : tGravityAccMag-sma() feature
+- tGravityAccMag-energy() : tGravityAccMag-energy() feature
+- tGravityAccMag-iqr() : tGravityAccMag-iqr() feature
+- tGravityAccMag-entropy() : tGravityAccMag-entropy() feature
+- tGravityAccMag-arCoeff()1 : tGravityAccMag-arCoeff()1 feature
+- tGravityAccMag-arCoeff()2 : tGravityAccMag-arCoeff()2 feature
+- tGravityAccMag-arCoeff()3 : tGravityAccMag-arCoeff()3 feature
+- tGravityAccMag-arCoeff()4 : tGravityAccMag-arCoeff()4 feature
+- tBodyAccJerkMag-mean() : tBodyAccJerkMag-mean() feature
+- tBodyAccJerkMag-std() : tBodyAccJerkMag-std() feature
+- tBodyAccJerkMag-mad() : tBodyAccJerkMag-mad() feature
+- tBodyAccJerkMag-max() : tBodyAccJerkMag-max() feature
+- tBodyAccJerkMag-min() : tBodyAccJerkMag-min() feature
+- tBodyAccJerkMag-sma() : tBodyAccJerkMag-sma() feature
+- tBodyAccJerkMag-energy() : tBodyAccJerkMag-energy() feature
+- tBodyAccJerkMag-iqr() : tBodyAccJerkMag-iqr() feature
+- tBodyAccJerkMag-entropy() : tBodyAccJerkMag-entropy() feature
+- tBodyAccJerkMag-arCoeff()1 : tBodyAccJerkMag-arCoeff()1 feature
+- tBodyAccJerkMag-arCoeff()2 : tBodyAccJerkMag-arCoeff()2 feature
+- tBodyAccJerkMag-arCoeff()3 : tBodyAccJerkMag-arCoeff()3 feature
+- tBodyAccJerkMag-arCoeff()4 : tBodyAccJerkMag-arCoeff()4 feature
+- tBodyGyroMag-mean() : tBodyGyroMag-mean() feature
+- tBodyGyroMag-std() : tBodyGyroMag-std() feature
+- tBodyGyroMag-mad() : tBodyGyroMag-mad() feature
+- tBodyGyroMag-max() : tBodyGyroMag-max() feature
+- tBodyGyroMag-min() : tBodyGyroMag-min() feature
+- tBodyGyroMag-sma() : tBodyGyroMag-sma() feature
+- tBodyGyroMag-energy() : tBodyGyroMag-energy() feature
+- tBodyGyroMag-iqr() : tBodyGyroMag-iqr() feature
+- tBodyGyroMag-entropy() : tBodyGyroMag-entropy() feature
+- tBodyGyroMag-arCoeff()1 : tBodyGyroMag-arCoeff()1 feature
+- tBodyGyroMag-arCoeff()2 : tBodyGyroMag-arCoeff()2 feature
+- tBodyGyroMag-arCoeff()3 : tBodyGyroMag-arCoeff()3 feature
+- tBodyGyroMag-arCoeff()4 : tBodyGyroMag-arCoeff()4 feature
+- tBodyGyroJerkMag-mean() : tBodyGyroJerkMag-mean() feature
+- tBodyGyroJerkMag-std() : tBodyGyroJerkMag-std() feature
+- tBodyGyroJerkMag-mad() : tBodyGyroJerkMag-mad() feature
+- tBodyGyroJerkMag-max() : tBodyGyroJerkMag-max() feature
+- tBodyGyroJerkMag-min() : tBodyGyroJerkMag-min() feature
+- tBodyGyroJerkMag-sma() : tBodyGyroJerkMag-sma() feature
+- tBodyGyroJerkMag-energy() : tBodyGyroJerkMag-energy() feature
+- tBodyGyroJerkMag-iqr() : tBodyGyroJerkMag-iqr() feature
+- tBodyGyroJerkMag-entropy() : tBodyGyroJerkMag-entropy() feature
+- tBodyGyroJerkMag-arCoeff()1 : tBodyGyroJerkMag-arCoeff()1 feature
+- tBodyGyroJerkMag-arCoeff()2 : tBodyGyroJerkMag-arCoeff()2 feature
+- tBodyGyroJerkMag-arCoeff()3 : tBodyGyroJerkMag-arCoeff()3 feature
+- tBodyGyroJerkMag-arCoeff()4 : tBodyGyroJerkMag-arCoeff()4 feature
+- fBodyAcc-mean()-X : fBodyAcc-mean()-X feature
+- fBodyAcc-mean()-Y : fBodyAcc-mean()-Y feature
+- fBodyAcc-mean()-Z : fBodyAcc-mean()-Z feature
+- fBodyAcc-std()-X : fBodyAcc-std()-X feature
+- fBodyAcc-std()-Y : fBodyAcc-std()-Y feature
+- fBodyAcc-std()-Z : fBodyAcc-std()-Z feature
+- fBodyAcc-mad()-X : fBodyAcc-mad()-X feature
+- fBodyAcc-mad()-Y : fBodyAcc-mad()-Y feature
+- fBodyAcc-mad()-Z : fBodyAcc-mad()-Z feature
+- fBodyAcc-max()-X : fBodyAcc-max()-X feature
+- fBodyAcc-max()-Y : fBodyAcc-max()-Y feature
+- fBodyAcc-max()-Z : fBodyAcc-max()-Z feature
+- fBodyAcc-min()-X : fBodyAcc-min()-X feature
+- fBodyAcc-min()-Y : fBodyAcc-min()-Y feature
+- fBodyAcc-min()-Z : fBodyAcc-min()-Z feature
+- fBodyAcc-sma() : fBodyAcc-sma() feature
+- fBodyAcc-energy()-X : fBodyAcc-energy()-X feature
+- fBodyAcc-energy()-Y : fBodyAcc-energy()-Y feature
+- fBodyAcc-energy()-Z : fBodyAcc-energy()-Z feature
+- fBodyAcc-iqr()-X : fBodyAcc-iqr()-X feature
+- fBodyAcc-iqr()-Y : fBodyAcc-iqr()-Y feature
+- fBodyAcc-iqr()-Z : fBodyAcc-iqr()-Z feature
+- fBodyAcc-entropy()-X : fBodyAcc-entropy()-X feature
+- fBodyAcc-entropy()-Y : fBodyAcc-entropy()-Y feature
+- fBodyAcc-entropy()-Z : fBodyAcc-entropy()-Z feature
+- fBodyAcc-maxInds-X : fBodyAcc-maxInds-X feature
+- fBodyAcc-maxInds-Y : fBodyAcc-maxInds-Y feature
+- fBodyAcc-maxInds-Z : fBodyAcc-maxInds-Z feature
+- fBodyAcc-meanFreq()-X : fBodyAcc-meanFreq()-X feature
+- fBodyAcc-meanFreq()-Y : fBodyAcc-meanFreq()-Y feature
+- fBodyAcc-meanFreq()-Z : fBodyAcc-meanFreq()-Z feature
+- fBodyAcc-skewness()-X : fBodyAcc-skewness()-X feature
+- fBodyAcc-kurtosis()-X : fBodyAcc-kurtosis()-X feature
+- fBodyAcc-skewness()-Y : fBodyAcc-skewness()-Y feature
+- fBodyAcc-kurtosis()-Y : fBodyAcc-kurtosis()-Y feature
+- fBodyAcc-skewness()-Z : fBodyAcc-skewness()-Z feature
+- fBodyAcc-kurtosis()-Z : fBodyAcc-kurtosis()-Z feature
+- fBodyAcc-bandsEnergy()-1,8 : fBodyAcc-bandsEnergy()-1,8 feature
+- fBodyAcc-bandsEnergy()-9,16 : fBodyAcc-bandsEnergy()-9,16 feature
+- fBodyAcc-bandsEnergy()-17,24 : fBodyAcc-bandsEnergy()-17,24 feature
+- fBodyAcc-bandsEnergy()-25,32 : fBodyAcc-bandsEnergy()-25,32 feature
+- fBodyAcc-bandsEnergy()-33,40 : fBodyAcc-bandsEnergy()-33,40 feature
+- fBodyAcc-bandsEnergy()-41,48 : fBodyAcc-bandsEnergy()-41,48 feature
+- fBodyAcc-bandsEnergy()-49,56 : fBodyAcc-bandsEnergy()-49,56 feature
+- fBodyAcc-bandsEnergy()-57,64 : fBodyAcc-bandsEnergy()-57,64 feature
+- fBodyAcc-bandsEnergy()-1,16 : fBodyAcc-bandsEnergy()-1,16 feature
+- fBodyAcc-bandsEnergy()-17,32 : fBodyAcc-bandsEnergy()-17,32 feature
+- fBodyAcc-bandsEnergy()-33,48 : fBodyAcc-bandsEnergy()-33,48 feature
+- fBodyAcc-bandsEnergy()-49,64 : fBodyAcc-bandsEnergy()-49,64 feature
+- fBodyAcc-bandsEnergy()-1,24 : fBodyAcc-bandsEnergy()-1,24 feature
+- fBodyAcc-bandsEnergy()-25,48 : fBodyAcc-bandsEnergy()-25,48 feature
+- fBodyAcc-bandsEnergy()-1,8 : fBodyAcc-bandsEnergy()-1,8 feature
+- fBodyAcc-bandsEnergy()-9,16 : fBodyAcc-bandsEnergy()-9,16 feature
+- fBodyAcc-bandsEnergy()-17,24 : fBodyAcc-bandsEnergy()-17,24 feature
+- fBodyAcc-bandsEnergy()-25,32 : fBodyAcc-bandsEnergy()-25,32 feature
+- fBodyAcc-bandsEnergy()-33,40 : fBodyAcc-bandsEnergy()-33,40 feature
+- fBodyAcc-bandsEnergy()-41,48 : fBodyAcc-bandsEnergy()-41,48 feature
+- fBodyAcc-bandsEnergy()-49,56 : fBodyAcc-bandsEnergy()-49,56 feature
+- fBodyAcc-bandsEnergy()-57,64 : fBodyAcc-bandsEnergy()-57,64 feature
+- fBodyAcc-bandsEnergy()-1,16 : fBodyAcc-bandsEnergy()-1,16 feature
+- fBodyAcc-bandsEnergy()-17,32 : fBodyAcc-bandsEnergy()-17,32 feature
+- fBodyAcc-bandsEnergy()-33,48 : fBodyAcc-bandsEnergy()-33,48 feature
+- fBodyAcc-bandsEnergy()-49,64 : fBodyAcc-bandsEnergy()-49,64 feature
+- fBodyAcc-bandsEnergy()-1,24 : fBodyAcc-bandsEnergy()-1,24 feature
+- fBodyAcc-bandsEnergy()-25,48 : fBodyAcc-bandsEnergy()-25,48 feature
+- fBodyAcc-bandsEnergy()-1,8 : fBodyAcc-bandsEnergy()-1,8 feature
+- fBodyAcc-bandsEnergy()-9,16 : fBodyAcc-bandsEnergy()-9,16 feature
+- fBodyAcc-bandsEnergy()-17,24 : fBodyAcc-bandsEnergy()-17,24 feature
+- fBodyAcc-bandsEnergy()-25,32 : fBodyAcc-bandsEnergy()-25,32 feature
+- fBodyAcc-bandsEnergy()-33,40 : fBodyAcc-bandsEnergy()-33,40 feature
+- fBodyAcc-bandsEnergy()-41,48 : fBodyAcc-bandsEnergy()-41,48 feature
+- fBodyAcc-bandsEnergy()-49,56 : fBodyAcc-bandsEnergy()-49,56 feature
+- fBodyAcc-bandsEnergy()-57,64 : fBodyAcc-bandsEnergy()-57,64 feature
+- fBodyAcc-bandsEnergy()-1,16 : fBodyAcc-bandsEnergy()-1,16 feature
+- fBodyAcc-bandsEnergy()-17,32 : fBodyAcc-bandsEnergy()-17,32 feature
+- fBodyAcc-bandsEnergy()-33,48 : fBodyAcc-bandsEnergy()-33,48 feature
+- fBodyAcc-bandsEnergy()-49,64 : fBodyAcc-bandsEnergy()-49,64 feature
+- fBodyAcc-bandsEnergy()-1,24 : fBodyAcc-bandsEnergy()-1,24 feature
+- fBodyAcc-bandsEnergy()-25,48 : fBodyAcc-bandsEnergy()-25,48 feature
+- fBodyAccJerk-mean()-X : fBodyAccJerk-mean()-X feature
+- fBodyAccJerk-mean()-Y : fBodyAccJerk-mean()-Y feature
+- fBodyAccJerk-mean()-Z : fBodyAccJerk-mean()-Z feature
+- fBodyAccJerk-std()-X : fBodyAccJerk-std()-X feature
+- fBodyAccJerk-std()-Y : fBodyAccJerk-std()-Y feature
+- fBodyAccJerk-std()-Z : fBodyAccJerk-std()-Z feature
+- fBodyAccJerk-mad()-X : fBodyAccJerk-mad()-X feature
+- fBodyAccJerk-mad()-Y : fBodyAccJerk-mad()-Y feature
+- fBodyAccJerk-mad()-Z : fBodyAccJerk-mad()-Z feature
+- fBodyAccJerk-max()-X : fBodyAccJerk-max()-X feature
+- fBodyAccJerk-max()-Y : fBodyAccJerk-max()-Y feature
+- fBodyAccJerk-max()-Z : fBodyAccJerk-max()-Z feature
+- fBodyAccJerk-min()-X : fBodyAccJerk-min()-X feature
+- fBodyAccJerk-min()-Y : fBodyAccJerk-min()-Y feature
+- fBodyAccJerk-min()-Z : fBodyAccJerk-min()-Z feature
+- fBodyAccJerk-sma() : fBodyAccJerk-sma() feature
+- fBodyAccJerk-energy()-X : fBodyAccJerk-energy()-X feature
+- fBodyAccJerk-energy()-Y : fBodyAccJerk-energy()-Y feature
+- fBodyAccJerk-energy()-Z : fBodyAccJerk-energy()-Z feature
+- fBodyAccJerk-iqr()-X : fBodyAccJerk-iqr()-X feature
+- fBodyAccJerk-iqr()-Y : fBodyAccJerk-iqr()-Y feature
+- fBodyAccJerk-iqr()-Z : fBodyAccJerk-iqr()-Z feature
+- fBodyAccJerk-entropy()-X : fBodyAccJerk-entropy()-X feature
+- fBodyAccJerk-entropy()-Y : fBodyAccJerk-entropy()-Y feature
+- fBodyAccJerk-entropy()-Z : fBodyAccJerk-entropy()-Z feature
+- fBodyAccJerk-maxInds-X : fBodyAccJerk-maxInds-X feature
+- fBodyAccJerk-maxInds-Y : fBodyAccJerk-maxInds-Y feature
+- fBodyAccJerk-maxInds-Z : fBodyAccJerk-maxInds-Z feature
+- fBodyAccJerk-meanFreq()-X : fBodyAccJerk-meanFreq()-X feature
+- fBodyAccJerk-meanFreq()-Y : fBodyAccJerk-meanFreq()-Y feature
+- fBodyAccJerk-meanFreq()-Z : fBodyAccJerk-meanFreq()-Z feature
+- fBodyAccJerk-skewness()-X : fBodyAccJerk-skewness()-X feature
+- fBodyAccJerk-kurtosis()-X : fBodyAccJerk-kurtosis()-X feature
+- fBodyAccJerk-skewness()-Y : fBodyAccJerk-skewness()-Y feature
+- fBodyAccJerk-kurtosis()-Y : fBodyAccJerk-kurtosis()-Y feature
+- fBodyAccJerk-skewness()-Z : fBodyAccJerk-skewness()-Z feature
+- fBodyAccJerk-kurtosis()-Z : fBodyAccJerk-kurtosis()-Z feature
+- fBodyAccJerk-bandsEnergy()-1,8 : fBodyAccJerk-bandsEnergy()-1,8 feature
+- fBodyAccJerk-bandsEnergy()-9,16 : fBodyAccJerk-bandsEnergy()-9,16 feature
+- fBodyAccJerk-bandsEnergy()-17,24 : fBodyAccJerk-bandsEnergy()-17,24 feature
+- fBodyAccJerk-bandsEnergy()-25,32 : fBodyAccJerk-bandsEnergy()-25,32 feature
+- fBodyAccJerk-bandsEnergy()-33,40 : fBodyAccJerk-bandsEnergy()-33,40 feature
+- fBodyAccJerk-bandsEnergy()-41,48 : fBodyAccJerk-bandsEnergy()-41,48 feature
+- fBodyAccJerk-bandsEnergy()-49,56 : fBodyAccJerk-bandsEnergy()-49,56 feature
+- fBodyAccJerk-bandsEnergy()-57,64 : fBodyAccJerk-bandsEnergy()-57,64 feature
+- fBodyAccJerk-bandsEnergy()-1,16 : fBodyAccJerk-bandsEnergy()-1,16 feature
+- fBodyAccJerk-bandsEnergy()-17,32 : fBodyAccJerk-bandsEnergy()-17,32 feature
+- fBodyAccJerk-bandsEnergy()-33,48 : fBodyAccJerk-bandsEnergy()-33,48 feature
+- fBodyAccJerk-bandsEnergy()-49,64 : fBodyAccJerk-bandsEnergy()-49,64 feature
+- fBodyAccJerk-bandsEnergy()-1,24 : fBodyAccJerk-bandsEnergy()-1,24 feature
+- fBodyAccJerk-bandsEnergy()-25,48 : fBodyAccJerk-bandsEnergy()-25,48 feature
+- fBodyAccJerk-bandsEnergy()-1,8 : fBodyAccJerk-bandsEnergy()-1,8 feature
+- fBodyAccJerk-bandsEnergy()-9,16 : fBodyAccJerk-bandsEnergy()-9,16 feature
+- fBodyAccJerk-bandsEnergy()-17,24 : fBodyAccJerk-bandsEnergy()-17,24 feature
+- fBodyAccJerk-bandsEnergy()-25,32 : fBodyAccJerk-bandsEnergy()-25,32 feature
+- fBodyAccJerk-bandsEnergy()-33,40 : fBodyAccJerk-bandsEnergy()-33,40 feature
+- fBodyAccJerk-bandsEnergy()-41,48 : fBodyAccJerk-bandsEnergy()-41,48 feature
+- fBodyAccJerk-bandsEnergy()-49,56 : fBodyAccJerk-bandsEnergy()-49,56 feature
+- fBodyAccJerk-bandsEnergy()-57,64 : fBodyAccJerk-bandsEnergy()-57,64 feature
+- fBodyAccJerk-bandsEnergy()-1,16 : fBodyAccJerk-bandsEnergy()-1,16 feature
+- fBodyAccJerk-bandsEnergy()-17,32 : fBodyAccJerk-bandsEnergy()-17,32 feature
+- fBodyAccJerk-bandsEnergy()-33,48 : fBodyAccJerk-bandsEnergy()-33,48 feature
+- fBodyAccJerk-bandsEnergy()-49,64 : fBodyAccJerk-bandsEnergy()-49,64 feature
+- fBodyAccJerk-bandsEnergy()-1,24 : fBodyAccJerk-bandsEnergy()-1,24 feature
+- fBodyAccJerk-bandsEnergy()-25,48 : fBodyAccJerk-bandsEnergy()-25,48 feature
+- fBodyAccJerk-bandsEnergy()-1,8 : fBodyAccJerk-bandsEnergy()-1,8 feature
+- fBodyAccJerk-bandsEnergy()-9,16 : fBodyAccJerk-bandsEnergy()-9,16 feature
+- fBodyAccJerk-bandsEnergy()-17,24 : fBodyAccJerk-bandsEnergy()-17,24 feature
+- fBodyAccJerk-bandsEnergy()-25,32 : fBodyAccJerk-bandsEnergy()-25,32 feature
+- fBodyAccJerk-bandsEnergy()-33,40 : fBodyAccJerk-bandsEnergy()-33,40 feature
+- fBodyAccJerk-bandsEnergy()-41,48 : fBodyAccJerk-bandsEnergy()-41,48 feature
+- fBodyAccJerk-bandsEnergy()-49,56 : fBodyAccJerk-bandsEnergy()-49,56 feature
+- fBodyAccJerk-bandsEnergy()-57,64 : fBodyAccJerk-bandsEnergy()-57,64 feature
+- fBodyAccJerk-bandsEnergy()-1,16 : fBodyAccJerk-bandsEnergy()-1,16 feature
+- fBodyAccJerk-bandsEnergy()-17,32 : fBodyAccJerk-bandsEnergy()-17,32 feature
+- fBodyAccJerk-bandsEnergy()-33,48 : fBodyAccJerk-bandsEnergy()-33,48 feature
+- fBodyAccJerk-bandsEnergy()-49,64 : fBodyAccJerk-bandsEnergy()-49,64 feature
+- fBodyAccJerk-bandsEnergy()-1,24 : fBodyAccJerk-bandsEnergy()-1,24 feature
+- fBodyAccJerk-bandsEnergy()-25,48 : fBodyAccJerk-bandsEnergy()-25,48 feature
+- fBodyGyro-mean()-X : fBodyGyro-mean()-X feature
+- fBodyGyro-mean()-Y : fBodyGyro-mean()-Y feature
+- fBodyGyro-mean()-Z : fBodyGyro-mean()-Z feature
+- fBodyGyro-std()-X : fBodyGyro-std()-X feature
+- fBodyGyro-std()-Y : fBodyGyro-std()-Y feature
+- fBodyGyro-std()-Z : fBodyGyro-std()-Z feature
+- fBodyGyro-mad()-X : fBodyGyro-mad()-X feature
+- fBodyGyro-mad()-Y : fBodyGyro-mad()-Y feature
+- fBodyGyro-mad()-Z : fBodyGyro-mad()-Z feature
+- fBodyGyro-max()-X : fBodyGyro-max()-X feature
+- fBodyGyro-max()-Y : fBodyGyro-max()-Y feature
+- fBodyGyro-max()-Z : fBodyGyro-max()-Z feature
+- fBodyGyro-min()-X : fBodyGyro-min()-X feature
+- fBodyGyro-min()-Y : fBodyGyro-min()-Y feature
+- fBodyGyro-min()-Z : fBodyGyro-min()-Z feature
+- fBodyGyro-sma() : fBodyGyro-sma() feature
+- fBodyGyro-energy()-X : fBodyGyro-energy()-X feature
+- fBodyGyro-energy()-Y : fBodyGyro-energy()-Y feature
+- fBodyGyro-energy()-Z : fBodyGyro-energy()-Z feature
+- fBodyGyro-iqr()-X : fBodyGyro-iqr()-X feature
+- fBodyGyro-iqr()-Y : fBodyGyro-iqr()-Y feature
+- fBodyGyro-iqr()-Z : fBodyGyro-iqr()-Z feature
+- fBodyGyro-entropy()-X : fBodyGyro-entropy()-X feature
+- fBodyGyro-entropy()-Y : fBodyGyro-entropy()-Y feature
+- fBodyGyro-entropy()-Z : fBodyGyro-entropy()-Z feature
+- fBodyGyro-maxInds-X : fBodyGyro-maxInds-X feature
+- fBodyGyro-maxInds-Y : fBodyGyro-maxInds-Y feature
+- fBodyGyro-maxInds-Z : fBodyGyro-maxInds-Z feature
+- fBodyGyro-meanFreq()-X : fBodyGyro-meanFreq()-X feature
+- fBodyGyro-meanFreq()-Y : fBodyGyro-meanFreq()-Y feature
+- fBodyGyro-meanFreq()-Z : fBodyGyro-meanFreq()-Z feature
+- fBodyGyro-skewness()-X : fBodyGyro-skewness()-X feature
+- fBodyGyro-kurtosis()-X : fBodyGyro-kurtosis()-X feature
+- fBodyGyro-skewness()-Y : fBodyGyro-skewness()-Y feature
+- fBodyGyro-kurtosis()-Y : fBodyGyro-kurtosis()-Y feature
+- fBodyGyro-skewness()-Z : fBodyGyro-skewness()-Z feature
+- fBodyGyro-kurtosis()-Z : fBodyGyro-kurtosis()-Z feature
+- fBodyGyro-bandsEnergy()-1,8 : fBodyGyro-bandsEnergy()-1,8 feature
+- fBodyGyro-bandsEnergy()-9,16 : fBodyGyro-bandsEnergy()-9,16 feature
+- fBodyGyro-bandsEnergy()-17,24 : fBodyGyro-bandsEnergy()-17,24 feature
+- fBodyGyro-bandsEnergy()-25,32 : fBodyGyro-bandsEnergy()-25,32 feature
+- fBodyGyro-bandsEnergy()-33,40 : fBodyGyro-bandsEnergy()-33,40 feature
+- fBodyGyro-bandsEnergy()-41,48 : fBodyGyro-bandsEnergy()-41,48 feature
+- fBodyGyro-bandsEnergy()-49,56 : fBodyGyro-bandsEnergy()-49,56 feature
+- fBodyGyro-bandsEnergy()-57,64 : fBodyGyro-bandsEnergy()-57,64 feature
+- fBodyGyro-bandsEnergy()-1,16 : fBodyGyro-bandsEnergy()-1,16 feature
+- fBodyGyro-bandsEnergy()-17,32 : fBodyGyro-bandsEnergy()-17,32 feature
+- fBodyGyro-bandsEnergy()-33,48 : fBodyGyro-bandsEnergy()-33,48 feature
+- fBodyGyro-bandsEnergy()-49,64 : fBodyGyro-bandsEnergy()-49,64 feature
+- fBodyGyro-bandsEnergy()-1,24 : fBodyGyro-bandsEnergy()-1,24 feature
+- fBodyGyro-bandsEnergy()-25,48 : fBodyGyro-bandsEnergy()-25,48 feature
+- fBodyGyro-bandsEnergy()-1,8 : fBodyGyro-bandsEnergy()-1,8 feature
+- fBodyGyro-bandsEnergy()-9,16 : fBodyGyro-bandsEnergy()-9,16 feature
+- fBodyGyro-bandsEnergy()-17,24 : fBodyGyro-bandsEnergy()-17,24 feature
+- fBodyGyro-bandsEnergy()-25,32 : fBodyGyro-bandsEnergy()-25,32 feature
+- fBodyGyro-bandsEnergy()-33,40 : fBodyGyro-bandsEnergy()-33,40 feature
+- fBodyGyro-bandsEnergy()-41,48 : fBodyGyro-bandsEnergy()-41,48 feature
+- fBodyGyro-bandsEnergy()-49,56 : fBodyGyro-bandsEnergy()-49,56 feature
+- fBodyGyro-bandsEnergy()-57,64 : fBodyGyro-bandsEnergy()-57,64 feature
+- fBodyGyro-bandsEnergy()-1,16 : fBodyGyro-bandsEnergy()-1,16 feature
+- fBodyGyro-bandsEnergy()-17,32 : fBodyGyro-bandsEnergy()-17,32 feature
+- fBodyGyro-bandsEnergy()-33,48 : fBodyGyro-bandsEnergy()-33,48 feature
+- fBodyGyro-bandsEnergy()-49,64 : fBodyGyro-bandsEnergy()-49,64 feature
+- fBodyGyro-bandsEnergy()-1,24 : fBodyGyro-bandsEnergy()-1,24 feature
+- fBodyGyro-bandsEnergy()-25,48 : fBodyGyro-bandsEnergy()-25,48 feature
+- fBodyGyro-bandsEnergy()-1,8 : fBodyGyro-bandsEnergy()-1,8 feature
+- fBodyGyro-bandsEnergy()-9,16 : fBodyGyro-bandsEnergy()-9,16 feature
+- fBodyGyro-bandsEnergy()-17,24 : fBodyGyro-bandsEnergy()-17,24 feature
+- fBodyGyro-bandsEnergy()-25,32 : fBodyGyro-bandsEnergy()-25,32 feature
+- fBodyGyro-bandsEnergy()-33,40 : fBodyGyro-bandsEnergy()-33,40 feature
+- fBodyGyro-bandsEnergy()-41,48 : fBodyGyro-bandsEnergy()-41,48 feature
+- fBodyGyro-bandsEnergy()-49,56 : fBodyGyro-bandsEnergy()-49,56 feature
+- fBodyGyro-bandsEnergy()-57,64 : fBodyGyro-bandsEnergy()-57,64 feature
+- fBodyGyro-bandsEnergy()-1,16 : fBodyGyro-bandsEnergy()-1,16 feature
+- fBodyGyro-bandsEnergy()-17,32 : fBodyGyro-bandsEnergy()-17,32 feature
+- fBodyGyro-bandsEnergy()-33,48 : fBodyGyro-bandsEnergy()-33,48 feature
+- fBodyGyro-bandsEnergy()-49,64 : fBodyGyro-bandsEnergy()-49,64 feature
+- fBodyGyro-bandsEnergy()-1,24 : fBodyGyro-bandsEnergy()-1,24 feature
+- fBodyGyro-bandsEnergy()-25,48 : fBodyGyro-bandsEnergy()-25,48 feature
+- fBodyAccMag-mean() : fBodyAccMag-mean() feature
+- fBodyAccMag-std() : fBodyAccMag-std() feature
+- fBodyAccMag-mad() : fBodyAccMag-mad() feature
+- fBodyAccMag-max() : fBodyAccMag-max() feature
+- fBodyAccMag-min() : fBodyAccMag-min() feature
+- fBodyAccMag-sma() : fBodyAccMag-sma() feature
+- fBodyAccMag-energy() : fBodyAccMag-energy() feature
+- fBodyAccMag-iqr() : fBodyAccMag-iqr() feature
+- fBodyAccMag-entropy() : fBodyAccMag-entropy() feature
+- fBodyAccMag-maxInds : fBodyAccMag-maxInds feature
+- fBodyAccMag-meanFreq() : fBodyAccMag-meanFreq() feature
+- fBodyAccMag-skewness() : fBodyAccMag-skewness() feature
+- fBodyAccMag-kurtosis() : fBodyAccMag-kurtosis() feature
+- fBodyBodyAccJerkMag-mean() : fBodyBodyAccJerkMag-mean() feature
+- fBodyBodyAccJerkMag-std() : fBodyBodyAccJerkMag-std() feature
+- fBodyBodyAccJerkMag-mad() : fBodyBodyAccJerkMag-mad() feature
+- fBodyBodyAccJerkMag-max() : fBodyBodyAccJerkMag-max() feature
+- fBodyBodyAccJerkMag-min() : fBodyBodyAccJerkMag-min() feature
+- fBodyBodyAccJerkMag-sma() : fBodyBodyAccJerkMag-sma() feature
+- fBodyBodyAccJerkMag-energy() : fBodyBodyAccJerkMag-energy() feature
+- fBodyBodyAccJerkMag-iqr() : fBodyBodyAccJerkMag-iqr() feature
+- fBodyBodyAccJerkMag-entropy() : fBodyBodyAccJerkMag-entropy() feature
+- fBodyBodyAccJerkMag-maxInds : fBodyBodyAccJerkMag-maxInds feature
+- fBodyBodyAccJerkMag-meanFreq() : fBodyBodyAccJerkMag-meanFreq() feature
+- fBodyBodyAccJerkMag-skewness() : fBodyBodyAccJerkMag-skewness() feature
+- fBodyBodyAccJerkMag-kurtosis() : fBodyBodyAccJerkMag-kurtosis() feature
+- fBodyBodyGyroMag-mean() : fBodyBodyGyroMag-mean() feature
+- fBodyBodyGyroMag-std() : fBodyBodyGyroMag-std() feature
+- fBodyBodyGyroMag-mad() : fBodyBodyGyroMag-mad() feature
+- fBodyBodyGyroMag-max() : fBodyBodyGyroMag-max() feature
+- fBodyBodyGyroMag-min() : fBodyBodyGyroMag-min() feature
+- fBodyBodyGyroMag-sma() : fBodyBodyGyroMag-sma() feature
+- fBodyBodyGyroMag-energy() : fBodyBodyGyroMag-energy() feature
+- fBodyBodyGyroMag-iqr() : fBodyBodyGyroMag-iqr() feature
+- fBodyBodyGyroMag-entropy() : fBodyBodyGyroMag-entropy() feature
+- fBodyBodyGyroMag-maxInds : fBodyBodyGyroMag-maxInds feature
+- fBodyBodyGyroMag-meanFreq() : fBodyBodyGyroMag-meanFreq() feature
+- fBodyBodyGyroMag-skewness() : fBodyBodyGyroMag-skewness() feature
+- fBodyBodyGyroMag-kurtosis() : fBodyBodyGyroMag-kurtosis() feature
+- fBodyBodyGyroJerkMag-mean() : fBodyBodyGyroJerkMag-mean() feature
+- fBodyBodyGyroJerkMag-std() : fBodyBodyGyroJerkMag-std() feature
+- fBodyBodyGyroJerkMag-mad() : fBodyBodyGyroJerkMag-mad() feature
+- fBodyBodyGyroJerkMag-max() : fBodyBodyGyroJerkMag-max() feature
+- fBodyBodyGyroJerkMag-min() : fBodyBodyGyroJerkMag-min() feature
+- fBodyBodyGyroJerkMag-sma() : fBodyBodyGyroJerkMag-sma() feature
+- fBodyBodyGyroJerkMag-energy() : fBodyBodyGyroJerkMag-energy() feature
+- fBodyBodyGyroJerkMag-iqr() : fBodyBodyGyroJerkMag-iqr() feature
+- fBodyBodyGyroJerkMag-entropy() : fBodyBodyGyroJerkMag-entropy() feature
+- fBodyBodyGyroJerkMag-maxInds : fBodyBodyGyroJerkMag-maxInds feature
+- fBodyBodyGyroJerkMag-meanFreq() : fBodyBodyGyroJerkMag-meanFreq() feature
+- fBodyBodyGyroJerkMag-skewness() : fBodyBodyGyroJerkMag-skewness() feature
+- fBodyBodyGyroJerkMag-kurtosis() : fBodyBodyGyroJerkMag-kurtosis() feature
+- angle(tBodyAccMean,gravity) : angle(tBodyAccMean,gravity) feature
+- angle(tBodyAccJerkMean),gravityMean) : angle(tBodyAccJerkMean),gravityMean) feature
+- angle(tBodyGyroMean,gravityMean) : angle(tBodyGyroMean,gravityMean) feature
+- angle(tBodyGyroJerkMean,gravityMean) : angle(tBodyGyroJerkMean,gravityMean) feature
+- angle(X,gravityMean) : angle(X,gravityMean) feature
+- angle(Y,gravityMean) : angle(Y,gravityMean) feature
+- angle(Z,gravityMean) : angle(Z,gravityMean) feature
+- body_acc_x_1 : body acceleration sensor signal x-axis reading 1
+- body_acc_x_2 : body acceleration sensor signal x-axis reading 2
+- body_acc_x_3 : body acceleration sensor signal x-axis reading 3
+- body_acc_x_4 : body acceleration sensor signal x-axis reading 4
+- body_acc_x_5 : body acceleration sensor signal x-axis reading 5
+- body_acc_x_6 : body acceleration sensor signal x-axis reading 6
+- body_acc_x_7 : body acceleration sensor signal x-axis reading 7
+- body_acc_x_8 : body acceleration sensor signal x-axis reading 8
+- body_acc_x_9 : body acceleration sensor signal x-axis reading 9
+- body_acc_x_10 : body acceleration sensor signal x-axis reading 10
+- body_acc_x_11 : body acceleration sensor signal x-axis reading 11
+- body_acc_x_12 : body acceleration sensor signal x-axis reading 12
+- body_acc_x_13 : body acceleration sensor signal x-axis reading 13
+- body_acc_x_14 : body acceleration sensor signal x-axis reading 14
+- body_acc_x_15 : body acceleration sensor signal x-axis reading 15
+- body_acc_x_16 : body acceleration sensor signal x-axis reading 16
+- body_acc_x_17 : body acceleration sensor signal x-axis reading 17
+- body_acc_x_18 : body acceleration sensor signal x-axis reading 18
+- body_acc_x_19 : body acceleration sensor signal x-axis reading 19
+- body_acc_x_20 : body acceleration sensor signal x-axis reading 20
+- body_acc_x_21 : body acceleration sensor signal x-axis reading 21
+- body_acc_x_22 : body acceleration sensor signal x-axis reading 22
+- body_acc_x_23 : body acceleration sensor signal x-axis reading 23
+- body_acc_x_24 : body acceleration sensor signal x-axis reading 24
+- body_acc_x_25 : body acceleration sensor signal x-axis reading 25
+- body_acc_x_26 : body acceleration sensor signal x-axis reading 26
+- body_acc_x_27 : body acceleration sensor signal x-axis reading 27
+- body_acc_x_28 : body acceleration sensor signal x-axis reading 28
+- body_acc_x_29 : body acceleration sensor signal x-axis reading 29
+- body_acc_x_30 : body acceleration sensor signal x-axis reading 30
+- body_acc_x_31 : body acceleration sensor signal x-axis reading 31
+- body_acc_x_32 : body acceleration sensor signal x-axis reading 32
+- body_acc_x_33 : body acceleration sensor signal x-axis reading 33
+- body_acc_x_34 : body acceleration sensor signal x-axis reading 34
+- body_acc_x_35 : body acceleration sensor signal x-axis reading 35
+- body_acc_x_36 : body acceleration sensor signal x-axis reading 36
+- body_acc_x_37 : body acceleration sensor signal x-axis reading 37
+- body_acc_x_38 : body acceleration sensor signal x-axis reading 38
+- body_acc_x_39 : body acceleration sensor signal x-axis reading 39
+- body_acc_x_40 : body acceleration sensor signal x-axis reading 40
+- body_acc_x_41 : body acceleration sensor signal x-axis reading 41
+- body_acc_x_42 : body acceleration sensor signal x-axis reading 42
+- body_acc_x_43 : body acceleration sensor signal x-axis reading 43
+- body_acc_x_44 : body acceleration sensor signal x-axis reading 44
+- body_acc_x_45 : body acceleration sensor signal x-axis reading 45
+- body_acc_x_46 : body acceleration sensor signal x-axis reading 46
+- body_acc_x_47 : body acceleration sensor signal x-axis reading 47
+- body_acc_x_48 : body acceleration sensor signal x-axis reading 48
+- body_acc_x_49 : body acceleration sensor signal x-axis reading 49
+- body_acc_x_50 : body acceleration sensor signal x-axis reading 50
+- body_acc_x_51 : body acceleration sensor signal x-axis reading 51
+- body_acc_x_52 : body acceleration sensor signal x-axis reading 52
+- body_acc_x_53 : body acceleration sensor signal x-axis reading 53
+- body_acc_x_54 : body acceleration sensor signal x-axis reading 54
+- body_acc_x_55 : body acceleration sensor signal x-axis reading 55
+- body_acc_x_56 : body acceleration sensor signal x-axis reading 56
+- body_acc_x_57 : body acceleration sensor signal x-axis reading 57
+- body_acc_x_58 : body acceleration sensor signal x-axis reading 58
+- body_acc_x_59 : body acceleration sensor signal x-axis reading 59
+- body_acc_x_60 : body acceleration sensor signal x-axis reading 60
+- body_acc_x_61 : body acceleration sensor signal x-axis reading 61
+- body_acc_x_62 : body acceleration sensor signal x-axis reading 62
+- body_acc_x_63 : body acceleration sensor signal x-axis reading 63
+- body_acc_x_64 : body acceleration sensor signal x-axis reading 64
+- body_acc_x_65 : body acceleration sensor signal x-axis reading 65
+- body_acc_x_66 : body acceleration sensor signal x-axis reading 66
+- body_acc_x_67 : body acceleration sensor signal x-axis reading 67
+- body_acc_x_68 : body acceleration sensor signal x-axis reading 68
+- body_acc_x_69 : body acceleration sensor signal x-axis reading 69
+- body_acc_x_70 : body acceleration sensor signal x-axis reading 70
+- body_acc_x_71 : body acceleration sensor signal x-axis reading 71
+- body_acc_x_72 : body acceleration sensor signal x-axis reading 72
+- body_acc_x_73 : body acceleration sensor signal x-axis reading 73
+- body_acc_x_74 : body acceleration sensor signal x-axis reading 74
+- body_acc_x_75 : body acceleration sensor signal x-axis reading 75
+- body_acc_x_76 : body acceleration sensor signal x-axis reading 76
+- body_acc_x_77 : body acceleration sensor signal x-axis reading 77
+- body_acc_x_78 : body acceleration sensor signal x-axis reading 78
+- body_acc_x_79 : body acceleration sensor signal x-axis reading 79
+- body_acc_x_80 : body acceleration sensor signal x-axis reading 80
+- body_acc_x_81 : body acceleration sensor signal x-axis reading 81
+- body_acc_x_82 : body acceleration sensor signal x-axis reading 82
+- body_acc_x_83 : body acceleration sensor signal x-axis reading 83
+- body_acc_x_84 : body acceleration sensor signal x-axis reading 84
+- body_acc_x_85 : body acceleration sensor signal x-axis reading 85
+- body_acc_x_86 : body acceleration sensor signal x-axis reading 86
+- body_acc_x_87 : body acceleration sensor signal x-axis reading 87
+- body_acc_x_88 : body acceleration sensor signal x-axis reading 88
+- body_acc_x_89 : body acceleration sensor signal x-axis reading 89
+- body_acc_x_90 : body acceleration sensor signal x-axis reading 90
+- body_acc_x_91 : body acceleration sensor signal x-axis reading 91
+- body_acc_x_92 : body acceleration sensor signal x-axis reading 92
+- body_acc_x_93 : body acceleration sensor signal x-axis reading 93
+- body_acc_x_94 : body acceleration sensor signal x-axis reading 94
+- body_acc_x_95 : body acceleration sensor signal x-axis reading 95
+- body_acc_x_96 : body acceleration sensor signal x-axis reading 96
+- body_acc_x_97 : body acceleration sensor signal x-axis reading 97
+- body_acc_x_98 : body acceleration sensor signal x-axis reading 98
+- body_acc_x_99 : body acceleration sensor signal x-axis reading 99
+- body_acc_x_100 : body acceleration sensor signal x-axis reading 100
+- body_acc_x_101 : body acceleration sensor signal x-axis reading 101
+- body_acc_x_102 : body acceleration sensor signal x-axis reading 102
+- body_acc_x_103 : body acceleration sensor signal x-axis reading 103
+- body_acc_x_104 : body acceleration sensor signal x-axis reading 104
+- body_acc_x_105 : body acceleration sensor signal x-axis reading 105
+- body_acc_x_106 : body acceleration sensor signal x-axis reading 106
+- body_acc_x_107 : body acceleration sensor signal x-axis reading 107
+- body_acc_x_108 : body acceleration sensor signal x-axis reading 108
+- body_acc_x_109 : body acceleration sensor signal x-axis reading 109
+- body_acc_x_110 : body acceleration sensor signal x-axis reading 110
+- body_acc_x_111 : body acceleration sensor signal x-axis reading 111
+- body_acc_x_112 : body acceleration sensor signal x-axis reading 112
+- body_acc_x_113 : body acceleration sensor signal x-axis reading 113
+- body_acc_x_114 : body acceleration sensor signal x-axis reading 114
+- body_acc_x_115 : body acceleration sensor signal x-axis reading 115
+- body_acc_x_116 : body acceleration sensor signal x-axis reading 116
+- body_acc_x_117 : body acceleration sensor signal x-axis reading 117
+- body_acc_x_118 : body acceleration sensor signal x-axis reading 118
+- body_acc_x_119 : body acceleration sensor signal x-axis reading 119
+- body_acc_x_120 : body acceleration sensor signal x-axis reading 120
+- body_acc_x_121 : body acceleration sensor signal x-axis reading 121
+- body_acc_x_122 : body acceleration sensor signal x-axis reading 122
+- body_acc_x_123 : body acceleration sensor signal x-axis reading 123
+- body_acc_x_124 : body acceleration sensor signal x-axis reading 124
+- body_acc_x_125 : body acceleration sensor signal x-axis reading 125
+- body_acc_x_126 : body acceleration sensor signal x-axis reading 126
+- body_acc_x_127 : body acceleration sensor signal x-axis reading 127
+- body_acc_x_128 : body acceleration sensor signal x-axis reading 128
+- body_acc_y_1 : body acceleration sensor signal y-axis reading 1
+- body_acc_y_2 : body acceleration sensor signal y-axis reading 2
+- body_acc_y_3 : body acceleration sensor signal y-axis reading 3
+- body_acc_y_4 : body acceleration sensor signal y-axis reading 4
+- body_acc_y_5 : body acceleration sensor signal y-axis reading 5
+- body_acc_y_6 : body acceleration sensor signal y-axis reading 6
+- body_acc_y_7 : body acceleration sensor signal y-axis reading 7
+- body_acc_y_8 : body acceleration sensor signal y-axis reading 8
+- body_acc_y_9 : body acceleration sensor signal y-axis reading 9
+- body_acc_y_10 : body acceleration sensor signal y-axis reading 10
+- body_acc_y_11 : body acceleration sensor signal y-axis reading 11
+- body_acc_y_12 : body acceleration sensor signal y-axis reading 12
+- body_acc_y_13 : body acceleration sensor signal y-axis reading 13
+- body_acc_y_14 : body acceleration sensor signal y-axis reading 14
+- body_acc_y_15 : body acceleration sensor signal y-axis reading 15
+- body_acc_y_16 : body acceleration sensor signal y-axis reading 16
+- body_acc_y_17 : body acceleration sensor signal y-axis reading 17
+- body_acc_y_18 : body acceleration sensor signal y-axis reading 18
+- body_acc_y_19 : body acceleration sensor signal y-axis reading 19
+- body_acc_y_20 : body acceleration sensor signal y-axis reading 20
+- body_acc_y_21 : body acceleration sensor signal y-axis reading 21
+- body_acc_y_22 : body acceleration sensor signal y-axis reading 22
+- body_acc_y_23 : body acceleration sensor signal y-axis reading 23
+- body_acc_y_24 : body acceleration sensor signal y-axis reading 24
+- body_acc_y_25 : body acceleration sensor signal y-axis reading 25
+- body_acc_y_26 : body acceleration sensor signal y-axis reading 26
+- body_acc_y_27 : body acceleration sensor signal y-axis reading 27
+- body_acc_y_28 : body acceleration sensor signal y-axis reading 28
+- body_acc_y_29 : body acceleration sensor signal y-axis reading 29
+- body_acc_y_30 : body acceleration sensor signal y-axis reading 30
+- body_acc_y_31 : body acceleration sensor signal y-axis reading 31
+- body_acc_y_32 : body acceleration sensor signal y-axis reading 32
+- body_acc_y_33 : body acceleration sensor signal y-axis reading 33
+- body_acc_y_34 : body acceleration sensor signal y-axis reading 34
+- body_acc_y_35 : body acceleration sensor signal y-axis reading 35
+- body_acc_y_36 : body acceleration sensor signal y-axis reading 36
+- body_acc_y_37 : body acceleration sensor signal y-axis reading 37
+- body_acc_y_38 : body acceleration sensor signal y-axis reading 38
+- body_acc_y_39 : body acceleration sensor signal y-axis reading 39
+- body_acc_y_40 : body acceleration sensor signal y-axis reading 40
+- body_acc_y_41 : body acceleration sensor signal y-axis reading 41
+- body_acc_y_42 : body acceleration sensor signal y-axis reading 42
+- body_acc_y_43 : body acceleration sensor signal y-axis reading 43
+- body_acc_y_44 : body acceleration sensor signal y-axis reading 44
+- body_acc_y_45 : body acceleration sensor signal y-axis reading 45
+- body_acc_y_46 : body acceleration sensor signal y-axis reading 46
+- body_acc_y_47 : body acceleration sensor signal y-axis reading 47
+- body_acc_y_48 : body acceleration sensor signal y-axis reading 48
+- body_acc_y_49 : body acceleration sensor signal y-axis reading 49
+- body_acc_y_50 : body acceleration sensor signal y-axis reading 50
+- body_acc_y_51 : body acceleration sensor signal y-axis reading 51
+- body_acc_y_52 : body acceleration sensor signal y-axis reading 52
+- body_acc_y_53 : body acceleration sensor signal y-axis reading 53
+- body_acc_y_54 : body acceleration sensor signal y-axis reading 54
+- body_acc_y_55 : body acceleration sensor signal y-axis reading 55
+- body_acc_y_56 : body acceleration sensor signal y-axis reading 56
+- body_acc_y_57 : body acceleration sensor signal y-axis reading 57
+- body_acc_y_58 : body acceleration sensor signal y-axis reading 58
+- body_acc_y_59 : body acceleration sensor signal y-axis reading 59
+- body_acc_y_60 : body acceleration sensor signal y-axis reading 60
+- body_acc_y_61 : body acceleration sensor signal y-axis reading 61
+- body_acc_y_62 : body acceleration sensor signal y-axis reading 62
+- body_acc_y_63 : body acceleration sensor signal y-axis reading 63
+- body_acc_y_64 : body acceleration sensor signal y-axis reading 64
+- body_acc_y_65 : body acceleration sensor signal y-axis reading 65
+- body_acc_y_66 : body acceleration sensor signal y-axis reading 66
+- body_acc_y_67 : body acceleration sensor signal y-axis reading 67
+- body_acc_y_68 : body acceleration sensor signal y-axis reading 68
+- body_acc_y_69 : body acceleration sensor signal y-axis reading 69
+- body_acc_y_70 : body acceleration sensor signal y-axis reading 70
+- body_acc_y_71 : body acceleration sensor signal y-axis reading 71
+- body_acc_y_72 : body acceleration sensor signal y-axis reading 72
+- body_acc_y_73 : body acceleration sensor signal y-axis reading 73
+- body_acc_y_74 : body acceleration sensor signal y-axis reading 74
+- body_acc_y_75 : body acceleration sensor signal y-axis reading 75
+- body_acc_y_76 : body acceleration sensor signal y-axis reading 76
+- body_acc_y_77 : body acceleration sensor signal y-axis reading 77
+- body_acc_y_78 : body acceleration sensor signal y-axis reading 78
+- body_acc_y_79 : body acceleration sensor signal y-axis reading 79
+- body_acc_y_80 : body acceleration sensor signal y-axis reading 80
+- body_acc_y_81 : body acceleration sensor signal y-axis reading 81
+- body_acc_y_82 : body acceleration sensor signal y-axis reading 82
+- body_acc_y_83 : body acceleration sensor signal y-axis reading 83
+- body_acc_y_84 : body acceleration sensor signal y-axis reading 84
+- body_acc_y_85 : body acceleration sensor signal y-axis reading 85
+- body_acc_y_86 : body acceleration sensor signal y-axis reading 86
+- body_acc_y_87 : body acceleration sensor signal y-axis reading 87
+- body_acc_y_88 : body acceleration sensor signal y-axis reading 88
+- body_acc_y_89 : body acceleration sensor signal y-axis reading 89
+- body_acc_y_90 : body acceleration sensor signal y-axis reading 90
+- body_acc_y_91 : body acceleration sensor signal y-axis reading 91
+- body_acc_y_92 : body acceleration sensor signal y-axis reading 92
+- body_acc_y_93 : body acceleration sensor signal y-axis reading 93
+- body_acc_y_94 : body acceleration sensor signal y-axis reading 94
+- body_acc_y_95 : body acceleration sensor signal y-axis reading 95
+- body_acc_y_96 : body acceleration sensor signal y-axis reading 96
+- body_acc_y_97 : body acceleration sensor signal y-axis reading 97
+- body_acc_y_98 : body acceleration sensor signal y-axis reading 98
+- body_acc_y_99 : body acceleration sensor signal y-axis reading 99
+- body_acc_y_100 : body acceleration sensor signal y-axis reading 100
+- body_acc_y_101 : body acceleration sensor signal y-axis reading 101
+- body_acc_y_102 : body acceleration sensor signal y-axis reading 102
+- body_acc_y_103 : body acceleration sensor signal y-axis reading 103
+- body_acc_y_104 : body acceleration sensor signal y-axis reading 104
+- body_acc_y_105 : body acceleration sensor signal y-axis reading 105
+- body_acc_y_106 : body acceleration sensor signal y-axis reading 106
+- body_acc_y_107 : body acceleration sensor signal y-axis reading 107
+- body_acc_y_108 : body acceleration sensor signal y-axis reading 108
+- body_acc_y_109 : body acceleration sensor signal y-axis reading 109
+- body_acc_y_110 : body acceleration sensor signal y-axis reading 110
+- body_acc_y_111 : body acceleration sensor signal y-axis reading 111
+- body_acc_y_112 : body acceleration sensor signal y-axis reading 112
+- body_acc_y_113 : body acceleration sensor signal y-axis reading 113
+- body_acc_y_114 : body acceleration sensor signal y-axis reading 114
+- body_acc_y_115 : body acceleration sensor signal y-axis reading 115
+- body_acc_y_116 : body acceleration sensor signal y-axis reading 116
+- body_acc_y_117 : body acceleration sensor signal y-axis reading 117
+- body_acc_y_118 : body acceleration sensor signal y-axis reading 118
+- body_acc_y_119 : body acceleration sensor signal y-axis reading 119
+- body_acc_y_120 : body acceleration sensor signal y-axis reading 120
+- body_acc_y_121 : body acceleration sensor signal y-axis reading 121
+- body_acc_y_122 : body acceleration sensor signal y-axis reading 122
+- body_acc_y_123 : body acceleration sensor signal y-axis reading 123
+- body_acc_y_124 : body acceleration sensor signal y-axis reading 124
+- body_acc_y_125 : body acceleration sensor signal y-axis reading 125
+- body_acc_y_126 : body acceleration sensor signal y-axis reading 126
+- body_acc_y_127 : body acceleration sensor signal y-axis reading 127
+- body_acc_y_128 : body acceleration sensor signal y-axis reading 128
+- body_acc_z_1 : body acceleration sensor signal z-axis reading 1
+- body_acc_z_2 : body acceleration sensor signal z-axis reading 2
+- body_acc_z_3 : body acceleration sensor signal z-axis reading 3
+- body_acc_z_4 : body acceleration sensor signal z-axis reading 4
+- body_acc_z_5 : body acceleration sensor signal z-axis reading 5
+- body_acc_z_6 : body acceleration sensor signal z-axis reading 6
+- body_acc_z_7 : body acceleration sensor signal z-axis reading 7
+- body_acc_z_8 : body acceleration sensor signal z-axis reading 8
+- body_acc_z_9 : body acceleration sensor signal z-axis reading 9
+- body_acc_z_10 : body acceleration sensor signal z-axis reading 10
+- body_acc_z_11 : body acceleration sensor signal z-axis reading 11
+- body_acc_z_12 : body acceleration sensor signal z-axis reading 12
+- body_acc_z_13 : body acceleration sensor signal z-axis reading 13
+- body_acc_z_14 : body acceleration sensor signal z-axis reading 14
+- body_acc_z_15 : body acceleration sensor signal z-axis reading 15
+- body_acc_z_16 : body acceleration sensor signal z-axis reading 16
+- body_acc_z_17 : body acceleration sensor signal z-axis reading 17
+- body_acc_z_18 : body acceleration sensor signal z-axis reading 18
+- body_acc_z_19 : body acceleration sensor signal z-axis reading 19
+- body_acc_z_20 : body acceleration sensor signal z-axis reading 20
+- body_acc_z_21 : body acceleration sensor signal z-axis reading 21
+- body_acc_z_22 : body acceleration sensor signal z-axis reading 22
+- body_acc_z_23 : body acceleration sensor signal z-axis reading 23
+- body_acc_z_24 : body acceleration sensor signal z-axis reading 24
+- body_acc_z_25 : body acceleration sensor signal z-axis reading 25
+- body_acc_z_26 : body acceleration sensor signal z-axis reading 26
+- body_acc_z_27 : body acceleration sensor signal z-axis reading 27
+- body_acc_z_28 : body acceleration sensor signal z-axis reading 28
+- body_acc_z_29 : body acceleration sensor signal z-axis reading 29
+- body_acc_z_30 : body acceleration sensor signal z-axis reading 30
+- body_acc_z_31 : body acceleration sensor signal z-axis reading 31
+- body_acc_z_32 : body acceleration sensor signal z-axis reading 32
+- body_acc_z_33 : body acceleration sensor signal z-axis reading 33
+- body_acc_z_34 : body acceleration sensor signal z-axis reading 34
+- body_acc_z_35 : body acceleration sensor signal z-axis reading 35
+- body_acc_z_36 : body acceleration sensor signal z-axis reading 36
+- body_acc_z_37 : body acceleration sensor signal z-axis reading 37
+- body_acc_z_38 : body acceleration sensor signal z-axis reading 38
+- body_acc_z_39 : body acceleration sensor signal z-axis reading 39
+- body_acc_z_40 : body acceleration sensor signal z-axis reading 40
+- body_acc_z_41 : body acceleration sensor signal z-axis reading 41
+- body_acc_z_42 : body acceleration sensor signal z-axis reading 42
+- body_acc_z_43 : body acceleration sensor signal z-axis reading 43
+- body_acc_z_44 : body acceleration sensor signal z-axis reading 44
+- body_acc_z_45 : body acceleration sensor signal z-axis reading 45
+- body_acc_z_46 : body acceleration sensor signal z-axis reading 46
+- body_acc_z_47 : body acceleration sensor signal z-axis reading 47
+- body_acc_z_48 : body acceleration sensor signal z-axis reading 48
+- body_acc_z_49 : body acceleration sensor signal z-axis reading 49
+- body_acc_z_50 : body acceleration sensor signal z-axis reading 50
+- body_acc_z_51 : body acceleration sensor signal z-axis reading 51
+- body_acc_z_52 : body acceleration sensor signal z-axis reading 52
+- body_acc_z_53 : body acceleration sensor signal z-axis reading 53
+- body_acc_z_54 : body acceleration sensor signal z-axis reading 54
+- body_acc_z_55 : body acceleration sensor signal z-axis reading 55
+- body_acc_z_56 : body acceleration sensor signal z-axis reading 56
+- body_acc_z_57 : body acceleration sensor signal z-axis reading 57
+- body_acc_z_58 : body acceleration sensor signal z-axis reading 58
+- body_acc_z_59 : body acceleration sensor signal z-axis reading 59
+- body_acc_z_60 : body acceleration sensor signal z-axis reading 60
+- body_acc_z_61 : body acceleration sensor signal z-axis reading 61
+- body_acc_z_62 : body acceleration sensor signal z-axis reading 62
+- body_acc_z_63 : body acceleration sensor signal z-axis reading 63
+- body_acc_z_64 : body acceleration sensor signal z-axis reading 64
+- body_acc_z_65 : body acceleration sensor signal z-axis reading 65
+- body_acc_z_66 : body acceleration sensor signal z-axis reading 66
+- body_acc_z_67 : body acceleration sensor signal z-axis reading 67
+- body_acc_z_68 : body acceleration sensor signal z-axis reading 68
+- body_acc_z_69 : body acceleration sensor signal z-axis reading 69
+- body_acc_z_70 : body acceleration sensor signal z-axis reading 70
+- body_acc_z_71 : body acceleration sensor signal z-axis reading 71
+- body_acc_z_72 : body acceleration sensor signal z-axis reading 72
+- body_acc_z_73 : body acceleration sensor signal z-axis reading 73
+- body_acc_z_74 : body acceleration sensor signal z-axis reading 74
+- body_acc_z_75 : body acceleration sensor signal z-axis reading 75
+- body_acc_z_76 : body acceleration sensor signal z-axis reading 76
+- body_acc_z_77 : body acceleration sensor signal z-axis reading 77
+- body_acc_z_78 : body acceleration sensor signal z-axis reading 78
+- body_acc_z_79 : body acceleration sensor signal z-axis reading 79
+- body_acc_z_80 : body acceleration sensor signal z-axis reading 80
+- body_acc_z_81 : body acceleration sensor signal z-axis reading 81
+- body_acc_z_82 : body acceleration sensor signal z-axis reading 82
+- body_acc_z_83 : body acceleration sensor signal z-axis reading 83
+- body_acc_z_84 : body acceleration sensor signal z-axis reading 84
+- body_acc_z_85 : body acceleration sensor signal z-axis reading 85
+- body_acc_z_86 : body acceleration sensor signal z-axis reading 86
+- body_acc_z_87 : body acceleration sensor signal z-axis reading 87
+- body_acc_z_88 : body acceleration sensor signal z-axis reading 88
+- body_acc_z_89 : body acceleration sensor signal z-axis reading 89
+- body_acc_z_90 : body acceleration sensor signal z-axis reading 90
+- body_acc_z_91 : body acceleration sensor signal z-axis reading 91
+- body_acc_z_92 : body acceleration sensor signal z-axis reading 92
+- body_acc_z_93 : body acceleration sensor signal z-axis reading 93
+- body_acc_z_94 : body acceleration sensor signal z-axis reading 94
+- body_acc_z_95 : body acceleration sensor signal z-axis reading 95
+- body_acc_z_96 : body acceleration sensor signal z-axis reading 96
+- body_acc_z_97 : body acceleration sensor signal z-axis reading 97
+- body_acc_z_98 : body acceleration sensor signal z-axis reading 98
+- body_acc_z_99 : body acceleration sensor signal z-axis reading 99
+- body_acc_z_100 : body acceleration sensor signal z-axis reading 100
+- body_acc_z_101 : body acceleration sensor signal z-axis reading 101
+- body_acc_z_102 : body acceleration sensor signal z-axis reading 102
+- body_acc_z_103 : body acceleration sensor signal z-axis reading 103
+- body_acc_z_104 : body acceleration sensor signal z-axis reading 104
+- body_acc_z_105 : body acceleration sensor signal z-axis reading 105
+- body_acc_z_106 : body acceleration sensor signal z-axis reading 106
+- body_acc_z_107 : body acceleration sensor signal z-axis reading 107
+- body_acc_z_108 : body acceleration sensor signal z-axis reading 108
+- body_acc_z_109 : body acceleration sensor signal z-axis reading 109
+- body_acc_z_110 : body acceleration sensor signal z-axis reading 110
+- body_acc_z_111 : body acceleration sensor signal z-axis reading 111
+- body_acc_z_112 : body acceleration sensor signal z-axis reading 112
+- body_acc_z_113 : body acceleration sensor signal z-axis reading 113
+- body_acc_z_114 : body acceleration sensor signal z-axis reading 114
+- body_acc_z_115 : body acceleration sensor signal z-axis reading 115
+- body_acc_z_116 : body acceleration sensor signal z-axis reading 116
+- body_acc_z_117 : body acceleration sensor signal z-axis reading 117
+- body_acc_z_118 : body acceleration sensor signal z-axis reading 118
+- body_acc_z_119 : body acceleration sensor signal z-axis reading 119
+- body_acc_z_120 : body acceleration sensor signal z-axis reading 120
+- body_acc_z_121 : body acceleration sensor signal z-axis reading 121
+- body_acc_z_122 : body acceleration sensor signal z-axis reading 122
+- body_acc_z_123 : body acceleration sensor signal z-axis reading 123
+- body_acc_z_124 : body acceleration sensor signal z-axis reading 124
+- body_acc_z_125 : body acceleration sensor signal z-axis reading 125
+- body_acc_z_126 : body acceleration sensor signal z-axis reading 126
+- body_acc_z_127 : body acceleration sensor signal z-axis reading 127
+- body_acc_z_128 : body acceleration sensor signal z-axis reading 128
+- body_gyro_x_1 : gravitational acceleration sensor signal x-axis reading 1
+- body_gyro_x_2 : gravitational acceleration sensor signal x-axis reading 2
+- body_gyro_x_3 : gravitational acceleration sensor signal x-axis reading 3
+- body_gyro_x_4 : gravitational acceleration sensor signal x-axis reading 4
+- body_gyro_x_5 : gravitational acceleration sensor signal x-axis reading 5
+- body_gyro_x_6 : gravitational acceleration sensor signal x-axis reading 6
+- body_gyro_x_7 : gravitational acceleration sensor signal x-axis reading 7
+- body_gyro_x_8 : gravitational acceleration sensor signal x-axis reading 8
+- body_gyro_x_9 : gravitational acceleration sensor signal x-axis reading 9
+- body_gyro_x_10 : gravitational acceleration sensor signal x-axis reading 10
+- body_gyro_x_11 : gravitational acceleration sensor signal x-axis reading 11
+- body_gyro_x_12 : gravitational acceleration sensor signal x-axis reading 12
+- body_gyro_x_13 : gravitational acceleration sensor signal x-axis reading 13
+- body_gyro_x_14 : gravitational acceleration sensor signal x-axis reading 14
+- body_gyro_x_15 : gravitational acceleration sensor signal x-axis reading 15
+- body_gyro_x_16 : gravitational acceleration sensor signal x-axis reading 16
+- body_gyro_x_17 : gravitational acceleration sensor signal x-axis reading 17
+- body_gyro_x_18 : gravitational acceleration sensor signal x-axis reading 18
+- body_gyro_x_19 : gravitational acceleration sensor signal x-axis reading 19
+- body_gyro_x_20 : gravitational acceleration sensor signal x-axis reading 20
+- body_gyro_x_21 : gravitational acceleration sensor signal x-axis reading 21
+- body_gyro_x_22 : gravitational acceleration sensor signal x-axis reading 22
+- body_gyro_x_23 : gravitational acceleration sensor signal x-axis reading 23
+- body_gyro_x_24 : gravitational acceleration sensor signal x-axis reading 24
+- body_gyro_x_25 : gravitational acceleration sensor signal x-axis reading 25
+- body_gyro_x_26 : gravitational acceleration sensor signal x-axis reading 26
+- body_gyro_x_27 : gravitational acceleration sensor signal x-axis reading 27
+- body_gyro_x_28 : gravitational acceleration sensor signal x-axis reading 28
+- body_gyro_x_29 : gravitational acceleration sensor signal x-axis reading 29
+- body_gyro_x_30 : gravitational acceleration sensor signal x-axis reading 30
+- body_gyro_x_31 : gravitational acceleration sensor signal x-axis reading 31
+- body_gyro_x_32 : gravitational acceleration sensor signal x-axis reading 32
+- body_gyro_x_33 : gravitational acceleration sensor signal x-axis reading 33
+- body_gyro_x_34 : gravitational acceleration sensor signal x-axis reading 34
+- body_gyro_x_35 : gravitational acceleration sensor signal x-axis reading 35
+- body_gyro_x_36 : gravitational acceleration sensor signal x-axis reading 36
+- body_gyro_x_37 : gravitational acceleration sensor signal x-axis reading 37
+- body_gyro_x_38 : gravitational acceleration sensor signal x-axis reading 38
+- body_gyro_x_39 : gravitational acceleration sensor signal x-axis reading 39
+- body_gyro_x_40 : gravitational acceleration sensor signal x-axis reading 40
+- body_gyro_x_41 : gravitational acceleration sensor signal x-axis reading 41
+- body_gyro_x_42 : gravitational acceleration sensor signal x-axis reading 42
+- body_gyro_x_43 : gravitational acceleration sensor signal x-axis reading 43
+- body_gyro_x_44 : gravitational acceleration sensor signal x-axis reading 44
+- body_gyro_x_45 : gravitational acceleration sensor signal x-axis reading 45
+- body_gyro_x_46 : gravitational acceleration sensor signal x-axis reading 46
+- body_gyro_x_47 : gravitational acceleration sensor signal x-axis reading 47
+- body_gyro_x_48 : gravitational acceleration sensor signal x-axis reading 48
+- body_gyro_x_49 : gravitational acceleration sensor signal x-axis reading 49
+- body_gyro_x_50 : gravitational acceleration sensor signal x-axis reading 50
+- body_gyro_x_51 : gravitational acceleration sensor signal x-axis reading 51
+- body_gyro_x_52 : gravitational acceleration sensor signal x-axis reading 52
+- body_gyro_x_53 : gravitational acceleration sensor signal x-axis reading 53
+- body_gyro_x_54 : gravitational acceleration sensor signal x-axis reading 54
+- body_gyro_x_55 : gravitational acceleration sensor signal x-axis reading 55
+- body_gyro_x_56 : gravitational acceleration sensor signal x-axis reading 56
+- body_gyro_x_57 : gravitational acceleration sensor signal x-axis reading 57
+- body_gyro_x_58 : gravitational acceleration sensor signal x-axis reading 58
+- body_gyro_x_59 : gravitational acceleration sensor signal x-axis reading 59
+- body_gyro_x_60 : gravitational acceleration sensor signal x-axis reading 60
+- body_gyro_x_61 : gravitational acceleration sensor signal x-axis reading 61
+- body_gyro_x_62 : gravitational acceleration sensor signal x-axis reading 62
+- body_gyro_x_63 : gravitational acceleration sensor signal x-axis reading 63
+- body_gyro_x_64 : gravitational acceleration sensor signal x-axis reading 64
+- body_gyro_x_65 : gravitational acceleration sensor signal x-axis reading 65
+- body_gyro_x_66 : gravitational acceleration sensor signal x-axis reading 66
+- body_gyro_x_67 : gravitational acceleration sensor signal x-axis reading 67
+- body_gyro_x_68 : gravitational acceleration sensor signal x-axis reading 68
+- body_gyro_x_69 : gravitational acceleration sensor signal x-axis reading 69
+- body_gyro_x_70 : gravitational acceleration sensor signal x-axis reading 70
+- body_gyro_x_71 : gravitational acceleration sensor signal x-axis reading 71
+- body_gyro_x_72 : gravitational acceleration sensor signal x-axis reading 72
+- body_gyro_x_73 : gravitational acceleration sensor signal x-axis reading 73
+- body_gyro_x_74 : gravitational acceleration sensor signal x-axis reading 74
+- body_gyro_x_75 : gravitational acceleration sensor signal x-axis reading 75
+- body_gyro_x_76 : gravitational acceleration sensor signal x-axis reading 76
+- body_gyro_x_77 : gravitational acceleration sensor signal x-axis reading 77
+- body_gyro_x_78 : gravitational acceleration sensor signal x-axis reading 78
+- body_gyro_x_79 : gravitational acceleration sensor signal x-axis reading 79
+- body_gyro_x_80 : gravitational acceleration sensor signal x-axis reading 80
+- body_gyro_x_81 : gravitational acceleration sensor signal x-axis reading 81
+- body_gyro_x_82 : gravitational acceleration sensor signal x-axis reading 82
+- body_gyro_x_83 : gravitational acceleration sensor signal x-axis reading 83
+- body_gyro_x_84 : gravitational acceleration sensor signal x-axis reading 84
+- body_gyro_x_85 : gravitational acceleration sensor signal x-axis reading 85
+- body_gyro_x_86 : gravitational acceleration sensor signal x-axis reading 86
+- body_gyro_x_87 : gravitational acceleration sensor signal x-axis reading 87
+- body_gyro_x_88 : gravitational acceleration sensor signal x-axis reading 88
+- body_gyro_x_89 : gravitational acceleration sensor signal x-axis reading 89
+- body_gyro_x_90 : gravitational acceleration sensor signal x-axis reading 90
+- body_gyro_x_91 : gravitational acceleration sensor signal x-axis reading 91
+- body_gyro_x_92 : gravitational acceleration sensor signal x-axis reading 92
+- body_gyro_x_93 : gravitational acceleration sensor signal x-axis reading 93
+- body_gyro_x_94 : gravitational acceleration sensor signal x-axis reading 94
+- body_gyro_x_95 : gravitational acceleration sensor signal x-axis reading 95
+- body_gyro_x_96 : gravitational acceleration sensor signal x-axis reading 96
+- body_gyro_x_97 : gravitational acceleration sensor signal x-axis reading 97
+- body_gyro_x_98 : gravitational acceleration sensor signal x-axis reading 98
+- body_gyro_x_99 : gravitational acceleration sensor signal x-axis reading 99
+- body_gyro_x_100 : gravitational acceleration sensor signal x-axis reading 100
+- body_gyro_x_101 : gravitational acceleration sensor signal x-axis reading 101
+- body_gyro_x_102 : gravitational acceleration sensor signal x-axis reading 102
+- body_gyro_x_103 : gravitational acceleration sensor signal x-axis reading 103
+- body_gyro_x_104 : gravitational acceleration sensor signal x-axis reading 104
+- body_gyro_x_105 : gravitational acceleration sensor signal x-axis reading 105
+- body_gyro_x_106 : gravitational acceleration sensor signal x-axis reading 106
+- body_gyro_x_107 : gravitational acceleration sensor signal x-axis reading 107
+- body_gyro_x_108 : gravitational acceleration sensor signal x-axis reading 108
+- body_gyro_x_109 : gravitational acceleration sensor signal x-axis reading 109
+- body_gyro_x_110 : gravitational acceleration sensor signal x-axis reading 110
+- body_gyro_x_111 : gravitational acceleration sensor signal x-axis reading 111
+- body_gyro_x_112 : gravitational acceleration sensor signal x-axis reading 112
+- body_gyro_x_113 : gravitational acceleration sensor signal x-axis reading 113
+- body_gyro_x_114 : gravitational acceleration sensor signal x-axis reading 114
+- body_gyro_x_115 : gravitational acceleration sensor signal x-axis reading 115
+- body_gyro_x_116 : gravitational acceleration sensor signal x-axis reading 116
+- body_gyro_x_117 : gravitational acceleration sensor signal x-axis reading 117
+- body_gyro_x_118 : gravitational acceleration sensor signal x-axis reading 118
+- body_gyro_x_119 : gravitational acceleration sensor signal x-axis reading 119
+- body_gyro_x_120 : gravitational acceleration sensor signal x-axis reading 120
+- body_gyro_x_121 : gravitational acceleration sensor signal x-axis reading 121
+- body_gyro_x_122 : gravitational acceleration sensor signal x-axis reading 122
+- body_gyro_x_123 : gravitational acceleration sensor signal x-axis reading 123
+- body_gyro_x_124 : gravitational acceleration sensor signal x-axis reading 124
+- body_gyro_x_125 : gravitational acceleration sensor signal x-axis reading 125
+- body_gyro_x_126 : gravitational acceleration sensor signal x-axis reading 126
+- body_gyro_x_127 : gravitational acceleration sensor signal x-axis reading 127
+- body_gyro_x_128 : gravitational acceleration sensor signal x-axis reading 128
+- body_gyro_y_1 : gravitational acceleration sensor signal y-axis reading 1
+- body_gyro_y_2 : gravitational acceleration sensor signal y-axis reading 2
+- body_gyro_y_3 : gravitational acceleration sensor signal y-axis reading 3
+- body_gyro_y_4 : gravitational acceleration sensor signal y-axis reading 4
+- body_gyro_y_5 : gravitational acceleration sensor signal y-axis reading 5
+- body_gyro_y_6 : gravitational acceleration sensor signal y-axis reading 6
+- body_gyro_y_7 : gravitational acceleration sensor signal y-axis reading 7
+- body_gyro_y_8 : gravitational acceleration sensor signal y-axis reading 8
+- body_gyro_y_9 : gravitational acceleration sensor signal y-axis reading 9
+- body_gyro_y_10 : gravitational acceleration sensor signal y-axis reading 10
+- body_gyro_y_11 : gravitational acceleration sensor signal y-axis reading 11
+- body_gyro_y_12 : gravitational acceleration sensor signal y-axis reading 12
+- body_gyro_y_13 : gravitational acceleration sensor signal y-axis reading 13
+- body_gyro_y_14 : gravitational acceleration sensor signal y-axis reading 14
+- body_gyro_y_15 : gravitational acceleration sensor signal y-axis reading 15
+- body_gyro_y_16 : gravitational acceleration sensor signal y-axis reading 16
+- body_gyro_y_17 : gravitational acceleration sensor signal y-axis reading 17
+- body_gyro_y_18 : gravitational acceleration sensor signal y-axis reading 18
+- body_gyro_y_19 : gravitational acceleration sensor signal y-axis reading 19
+- body_gyro_y_20 : gravitational acceleration sensor signal y-axis reading 20
+- body_gyro_y_21 : gravitational acceleration sensor signal y-axis reading 21
+- body_gyro_y_22 : gravitational acceleration sensor signal y-axis reading 22
+- body_gyro_y_23 : gravitational acceleration sensor signal y-axis reading 23
+- body_gyro_y_24 : gravitational acceleration sensor signal y-axis reading 24
+- body_gyro_y_25 : gravitational acceleration sensor signal y-axis reading 25
+- body_gyro_y_26 : gravitational acceleration sensor signal y-axis reading 26
+- body_gyro_y_27 : gravitational acceleration sensor signal y-axis reading 27
+- body_gyro_y_28 : gravitational acceleration sensor signal y-axis reading 28
+- body_gyro_y_29 : gravitational acceleration sensor signal y-axis reading 29
+- body_gyro_y_30 : gravitational acceleration sensor signal y-axis reading 30
+- body_gyro_y_31 : gravitational acceleration sensor signal y-axis reading 31
+- body_gyro_y_32 : gravitational acceleration sensor signal y-axis reading 32
+- body_gyro_y_33 : gravitational acceleration sensor signal y-axis reading 33
+- body_gyro_y_34 : gravitational acceleration sensor signal y-axis reading 34
+- body_gyro_y_35 : gravitational acceleration sensor signal y-axis reading 35
+- body_gyro_y_36 : gravitational acceleration sensor signal y-axis reading 36
+- body_gyro_y_37 : gravitational acceleration sensor signal y-axis reading 37
+- body_gyro_y_38 : gravitational acceleration sensor signal y-axis reading 38
+- body_gyro_y_39 : gravitational acceleration sensor signal y-axis reading 39
+- body_gyro_y_40 : gravitational acceleration sensor signal y-axis reading 40
+- body_gyro_y_41 : gravitational acceleration sensor signal y-axis reading 41
+- body_gyro_y_42 : gravitational acceleration sensor signal y-axis reading 42
+- body_gyro_y_43 : gravitational acceleration sensor signal y-axis reading 43
+- body_gyro_y_44 : gravitational acceleration sensor signal y-axis reading 44
+- body_gyro_y_45 : gravitational acceleration sensor signal y-axis reading 45
+- body_gyro_y_46 : gravitational acceleration sensor signal y-axis reading 46
+- body_gyro_y_47 : gravitational acceleration sensor signal y-axis reading 47
+- body_gyro_y_48 : gravitational acceleration sensor signal y-axis reading 48
+- body_gyro_y_49 : gravitational acceleration sensor signal y-axis reading 49
+- body_gyro_y_50 : gravitational acceleration sensor signal y-axis reading 50
+- body_gyro_y_51 : gravitational acceleration sensor signal y-axis reading 51
+- body_gyro_y_52 : gravitational acceleration sensor signal y-axis reading 52
+- body_gyro_y_53 : gravitational acceleration sensor signal y-axis reading 53
+- body_gyro_y_54 : gravitational acceleration sensor signal y-axis reading 54
+- body_gyro_y_55 : gravitational acceleration sensor signal y-axis reading 55
+- body_gyro_y_56 : gravitational acceleration sensor signal y-axis reading 56
+- body_gyro_y_57 : gravitational acceleration sensor signal y-axis reading 57
+- body_gyro_y_58 : gravitational acceleration sensor signal y-axis reading 58
+- body_gyro_y_59 : gravitational acceleration sensor signal y-axis reading 59
+- body_gyro_y_60 : gravitational acceleration sensor signal y-axis reading 60
+- body_gyro_y_61 : gravitational acceleration sensor signal y-axis reading 61
+- body_gyro_y_62 : gravitational acceleration sensor signal y-axis reading 62
+- body_gyro_y_63 : gravitational acceleration sensor signal y-axis reading 63
+- body_gyro_y_64 : gravitational acceleration sensor signal y-axis reading 64
+- body_gyro_y_65 : gravitational acceleration sensor signal y-axis reading 65
+- body_gyro_y_66 : gravitational acceleration sensor signal y-axis reading 66
+- body_gyro_y_67 : gravitational acceleration sensor signal y-axis reading 67
+- body_gyro_y_68 : gravitational acceleration sensor signal y-axis reading 68
+- body_gyro_y_69 : gravitational acceleration sensor signal y-axis reading 69
+- body_gyro_y_70 : gravitational acceleration sensor signal y-axis reading 70
+- body_gyro_y_71 : gravitational acceleration sensor signal y-axis reading 71
+- body_gyro_y_72 : gravitational acceleration sensor signal y-axis reading 72
+- body_gyro_y_73 : gravitational acceleration sensor signal y-axis reading 73
+- body_gyro_y_74 : gravitational acceleration sensor signal y-axis reading 74
+- body_gyro_y_75 : gravitational acceleration sensor signal y-axis reading 75
+- body_gyro_y_76 : gravitational acceleration sensor signal y-axis reading 76
+- body_gyro_y_77 : gravitational acceleration sensor signal y-axis reading 77
+- body_gyro_y_78 : gravitational acceleration sensor signal y-axis reading 78
+- body_gyro_y_79 : gravitational acceleration sensor signal y-axis reading 79
+- body_gyro_y_80 : gravitational acceleration sensor signal y-axis reading 80
+- body_gyro_y_81 : gravitational acceleration sensor signal y-axis reading 81
+- body_gyro_y_82 : gravitational acceleration sensor signal y-axis reading 82
+- body_gyro_y_83 : gravitational acceleration sensor signal y-axis reading 83
+- body_gyro_y_84 : gravitational acceleration sensor signal y-axis reading 84
+- body_gyro_y_85 : gravitational acceleration sensor signal y-axis reading 85
+- body_gyro_y_86 : gravitational acceleration sensor signal y-axis reading 86
+- body_gyro_y_87 : gravitational acceleration sensor signal y-axis reading 87
+- body_gyro_y_88 : gravitational acceleration sensor signal y-axis reading 88
+- body_gyro_y_89 : gravitational acceleration sensor signal y-axis reading 89
+- body_gyro_y_90 : gravitational acceleration sensor signal y-axis reading 90
+- body_gyro_y_91 : gravitational acceleration sensor signal y-axis reading 91
+- body_gyro_y_92 : gravitational acceleration sensor signal y-axis reading 92
+- body_gyro_y_93 : gravitational acceleration sensor signal y-axis reading 93
+- body_gyro_y_94 : gravitational acceleration sensor signal y-axis reading 94
+- body_gyro_y_95 : gravitational acceleration sensor signal y-axis reading 95
+- body_gyro_y_96 : gravitational acceleration sensor signal y-axis reading 96
+- body_gyro_y_97 : gravitational acceleration sensor signal y-axis reading 97
+- body_gyro_y_98 : gravitational acceleration sensor signal y-axis reading 98
+- body_gyro_y_99 : gravitational acceleration sensor signal y-axis reading 99
+- body_gyro_y_100 : gravitational acceleration sensor signal y-axis reading 100
+- body_gyro_y_101 : gravitational acceleration sensor signal y-axis reading 101
+- body_gyro_y_102 : gravitational acceleration sensor signal y-axis reading 102
+- body_gyro_y_103 : gravitational acceleration sensor signal y-axis reading 103
+- body_gyro_y_104 : gravitational acceleration sensor signal y-axis reading 104
+- body_gyro_y_105 : gravitational acceleration sensor signal y-axis reading 105
+- body_gyro_y_106 : gravitational acceleration sensor signal y-axis reading 106
+- body_gyro_y_107 : gravitational acceleration sensor signal y-axis reading 107
+- body_gyro_y_108 : gravitational acceleration sensor signal y-axis reading 108
+- body_gyro_y_109 : gravitational acceleration sensor signal y-axis reading 109
+- body_gyro_y_110 : gravitational acceleration sensor signal y-axis reading 110
+- body_gyro_y_111 : gravitational acceleration sensor signal y-axis reading 111
+- body_gyro_y_112 : gravitational acceleration sensor signal y-axis reading 112
+- body_gyro_y_113 : gravitational acceleration sensor signal y-axis reading 113
+- body_gyro_y_114 : gravitational acceleration sensor signal y-axis reading 114
+- body_gyro_y_115 : gravitational acceleration sensor signal y-axis reading 115
+- body_gyro_y_116 : gravitational acceleration sensor signal y-axis reading 116
+- body_gyro_y_117 : gravitational acceleration sensor signal y-axis reading 117
+- body_gyro_y_118 : gravitational acceleration sensor signal y-axis reading 118
+- body_gyro_y_119 : gravitational acceleration sensor signal y-axis reading 119
+- body_gyro_y_120 : gravitational acceleration sensor signal y-axis reading 120
+- body_gyro_y_121 : gravitational acceleration sensor signal y-axis reading 121
+- body_gyro_y_122 : gravitational acceleration sensor signal y-axis reading 122
+- body_gyro_y_123 : gravitational acceleration sensor signal y-axis reading 123
+- body_gyro_y_124 : gravitational acceleration sensor signal y-axis reading 124
+- body_gyro_y_125 : gravitational acceleration sensor signal y-axis reading 125
+- body_gyro_y_126 : gravitational acceleration sensor signal y-axis reading 126
+- body_gyro_y_127 : gravitational acceleration sensor signal y-axis reading 127
+- body_gyro_y_128 : gravitational acceleration sensor signal y-axis reading 128
+- body_gyro_z_1 : gravitational acceleration sensor signal z-axis reading 1
+- body_gyro_z_2 : gravitational acceleration sensor signal z-axis reading 2
+- body_gyro_z_3 : gravitational acceleration sensor signal z-axis reading 3
+- body_gyro_z_4 : gravitational acceleration sensor signal z-axis reading 4
+- body_gyro_z_5 : gravitational acceleration sensor signal z-axis reading 5
+- body_gyro_z_6 : gravitational acceleration sensor signal z-axis reading 6
+- body_gyro_z_7 : gravitational acceleration sensor signal z-axis reading 7
+- body_gyro_z_8 : gravitational acceleration sensor signal z-axis reading 8
+- body_gyro_z_9 : gravitational acceleration sensor signal z-axis reading 9
+- body_gyro_z_10 : gravitational acceleration sensor signal z-axis reading 10
+- body_gyro_z_11 : gravitational acceleration sensor signal z-axis reading 11
+- body_gyro_z_12 : gravitational acceleration sensor signal z-axis reading 12
+- body_gyro_z_13 : gravitational acceleration sensor signal z-axis reading 13
+- body_gyro_z_14 : gravitational acceleration sensor signal z-axis reading 14
+- body_gyro_z_15 : gravitational acceleration sensor signal z-axis reading 15
+- body_gyro_z_16 : gravitational acceleration sensor signal z-axis reading 16
+- body_gyro_z_17 : gravitational acceleration sensor signal z-axis reading 17
+- body_gyro_z_18 : gravitational acceleration sensor signal z-axis reading 18
+- body_gyro_z_19 : gravitational acceleration sensor signal z-axis reading 19
+- body_gyro_z_20 : gravitational acceleration sensor signal z-axis reading 20
+- body_gyro_z_21 : gravitational acceleration sensor signal z-axis reading 21
+- body_gyro_z_22 : gravitational acceleration sensor signal z-axis reading 22
+- body_gyro_z_23 : gravitational acceleration sensor signal z-axis reading 23
+- body_gyro_z_24 : gravitational acceleration sensor signal z-axis reading 24
+- body_gyro_z_25 : gravitational acceleration sensor signal z-axis reading 25
+- body_gyro_z_26 : gravitational acceleration sensor signal z-axis reading 26
+- body_gyro_z_27 : gravitational acceleration sensor signal z-axis reading 27
+- body_gyro_z_28 : gravitational acceleration sensor signal z-axis reading 28
+- body_gyro_z_29 : gravitational acceleration sensor signal z-axis reading 29
+- body_gyro_z_30 : gravitational acceleration sensor signal z-axis reading 30
+- body_gyro_z_31 : gravitational acceleration sensor signal z-axis reading 31
+- body_gyro_z_32 : gravitational acceleration sensor signal z-axis reading 32
+- body_gyro_z_33 : gravitational acceleration sensor signal z-axis reading 33
+- body_gyro_z_34 : gravitational acceleration sensor signal z-axis reading 34
+- body_gyro_z_35 : gravitational acceleration sensor signal z-axis reading 35
+- body_gyro_z_36 : gravitational acceleration sensor signal z-axis reading 36
+- body_gyro_z_37 : gravitational acceleration sensor signal z-axis reading 37
+- body_gyro_z_38 : gravitational acceleration sensor signal z-axis reading 38
+- body_gyro_z_39 : gravitational acceleration sensor signal z-axis reading 39
+- body_gyro_z_40 : gravitational acceleration sensor signal z-axis reading 40
+- body_gyro_z_41 : gravitational acceleration sensor signal z-axis reading 41
+- body_gyro_z_42 : gravitational acceleration sensor signal z-axis reading 42
+- body_gyro_z_43 : gravitational acceleration sensor signal z-axis reading 43
+- body_gyro_z_44 : gravitational acceleration sensor signal z-axis reading 44
+- body_gyro_z_45 : gravitational acceleration sensor signal z-axis reading 45
+- body_gyro_z_46 : gravitational acceleration sensor signal z-axis reading 46
+- body_gyro_z_47 : gravitational acceleration sensor signal z-axis reading 47
+- body_gyro_z_48 : gravitational acceleration sensor signal z-axis reading 48
+- body_gyro_z_49 : gravitational acceleration sensor signal z-axis reading 49
+- body_gyro_z_50 : gravitational acceleration sensor signal z-axis reading 50
+- body_gyro_z_51 : gravitational acceleration sensor signal z-axis reading 51
+- body_gyro_z_52 : gravitational acceleration sensor signal z-axis reading 52
+- body_gyro_z_53 : gravitational acceleration sensor signal z-axis reading 53
+- body_gyro_z_54 : gravitational acceleration sensor signal z-axis reading 54
+- body_gyro_z_55 : gravitational acceleration sensor signal z-axis reading 55
+- body_gyro_z_56 : gravitational acceleration sensor signal z-axis reading 56
+- body_gyro_z_57 : gravitational acceleration sensor signal z-axis reading 57
+- body_gyro_z_58 : gravitational acceleration sensor signal z-axis reading 58
+- body_gyro_z_59 : gravitational acceleration sensor signal z-axis reading 59
+- body_gyro_z_60 : gravitational acceleration sensor signal z-axis reading 60
+- body_gyro_z_61 : gravitational acceleration sensor signal z-axis reading 61
+- body_gyro_z_62 : gravitational acceleration sensor signal z-axis reading 62
+- body_gyro_z_63 : gravitational acceleration sensor signal z-axis reading 63
+- body_gyro_z_64 : gravitational acceleration sensor signal z-axis reading 64
+- body_gyro_z_65 : gravitational acceleration sensor signal z-axis reading 65
+- body_gyro_z_66 : gravitational acceleration sensor signal z-axis reading 66
+- body_gyro_z_67 : gravitational acceleration sensor signal z-axis reading 67
+- body_gyro_z_68 : gravitational acceleration sensor signal z-axis reading 68
+- body_gyro_z_69 : gravitational acceleration sensor signal z-axis reading 69
+- body_gyro_z_70 : gravitational acceleration sensor signal z-axis reading 70
+- body_gyro_z_71 : gravitational acceleration sensor signal z-axis reading 71
+- body_gyro_z_72 : gravitational acceleration sensor signal z-axis reading 72
+- body_gyro_z_73 : gravitational acceleration sensor signal z-axis reading 73
+- body_gyro_z_74 : gravitational acceleration sensor signal z-axis reading 74
+- body_gyro_z_75 : gravitational acceleration sensor signal z-axis reading 75
+- body_gyro_z_76 : gravitational acceleration sensor signal z-axis reading 76
+- body_gyro_z_77 : gravitational acceleration sensor signal z-axis reading 77
+- body_gyro_z_78 : gravitational acceleration sensor signal z-axis reading 78
+- body_gyro_z_79 : gravitational acceleration sensor signal z-axis reading 79
+- body_gyro_z_80 : gravitational acceleration sensor signal z-axis reading 80
+- body_gyro_z_81 : gravitational acceleration sensor signal z-axis reading 81
+- body_gyro_z_82 : gravitational acceleration sensor signal z-axis reading 82
+- body_gyro_z_83 : gravitational acceleration sensor signal z-axis reading 83
+- body_gyro_z_84 : gravitational acceleration sensor signal z-axis reading 84
+- body_gyro_z_85 : gravitational acceleration sensor signal z-axis reading 85
+- body_gyro_z_86 : gravitational acceleration sensor signal z-axis reading 86
+- body_gyro_z_87 : gravitational acceleration sensor signal z-axis reading 87
+- body_gyro_z_88 : gravitational acceleration sensor signal z-axis reading 88
+- body_gyro_z_89 : gravitational acceleration sensor signal z-axis reading 89
+- body_gyro_z_90 : gravitational acceleration sensor signal z-axis reading 90
+- body_gyro_z_91 : gravitational acceleration sensor signal z-axis reading 91
+- body_gyro_z_92 : gravitational acceleration sensor signal z-axis reading 92
+- body_gyro_z_93 : gravitational acceleration sensor signal z-axis reading 93
+- body_gyro_z_94 : gravitational acceleration sensor signal z-axis reading 94
+- body_gyro_z_95 : gravitational acceleration sensor signal z-axis reading 95
+- body_gyro_z_96 : gravitational acceleration sensor signal z-axis reading 96
+- body_gyro_z_97 : gravitational acceleration sensor signal z-axis reading 97
+- body_gyro_z_98 : gravitational acceleration sensor signal z-axis reading 98
+- body_gyro_z_99 : gravitational acceleration sensor signal z-axis reading 99
+- body_gyro_z_100 : gravitational acceleration sensor signal z-axis reading 100
+- body_gyro_z_101 : gravitational acceleration sensor signal z-axis reading 101
+- body_gyro_z_102 : gravitational acceleration sensor signal z-axis reading 102
+- body_gyro_z_103 : gravitational acceleration sensor signal z-axis reading 103
+- body_gyro_z_104 : gravitational acceleration sensor signal z-axis reading 104
+- body_gyro_z_105 : gravitational acceleration sensor signal z-axis reading 105
+- body_gyro_z_106 : gravitational acceleration sensor signal z-axis reading 106
+- body_gyro_z_107 : gravitational acceleration sensor signal z-axis reading 107
+- body_gyro_z_108 : gravitational acceleration sensor signal z-axis reading 108
+- body_gyro_z_109 : gravitational acceleration sensor signal z-axis reading 109
+- body_gyro_z_110 : gravitational acceleration sensor signal z-axis reading 110
+- body_gyro_z_111 : gravitational acceleration sensor signal z-axis reading 111
+- body_gyro_z_112 : gravitational acceleration sensor signal z-axis reading 112
+- body_gyro_z_113 : gravitational acceleration sensor signal z-axis reading 113
+- body_gyro_z_114 : gravitational acceleration sensor signal z-axis reading 114
+- body_gyro_z_115 : gravitational acceleration sensor signal z-axis reading 115
+- body_gyro_z_116 : gravitational acceleration sensor signal z-axis reading 116
+- body_gyro_z_117 : gravitational acceleration sensor signal z-axis reading 117
+- body_gyro_z_118 : gravitational acceleration sensor signal z-axis reading 118
+- body_gyro_z_119 : gravitational acceleration sensor signal z-axis reading 119
+- body_gyro_z_120 : gravitational acceleration sensor signal z-axis reading 120
+- body_gyro_z_121 : gravitational acceleration sensor signal z-axis reading 121
+- body_gyro_z_122 : gravitational acceleration sensor signal z-axis reading 122
+- body_gyro_z_123 : gravitational acceleration sensor signal z-axis reading 123
+- body_gyro_z_124 : gravitational acceleration sensor signal z-axis reading 124
+- body_gyro_z_125 : gravitational acceleration sensor signal z-axis reading 125
+- body_gyro_z_126 : gravitational acceleration sensor signal z-axis reading 126
+- body_gyro_z_127 : gravitational acceleration sensor signal z-axis reading 127
+- body_gyro_z_128 : gravitational acceleration sensor signal z-axis reading 128
+- total_acc_x_1 : total acceleration sensor signal x-axis reading 1
+- total_acc_x_2 : total acceleration sensor signal x-axis reading 2
+- total_acc_x_3 : total acceleration sensor signal x-axis reading 3
+- total_acc_x_4 : total acceleration sensor signal x-axis reading 4
+- total_acc_x_5 : total acceleration sensor signal x-axis reading 5
+- total_acc_x_6 : total acceleration sensor signal x-axis reading 6
+- total_acc_x_7 : total acceleration sensor signal x-axis reading 7
+- total_acc_x_8 : total acceleration sensor signal x-axis reading 8
+- total_acc_x_9 : total acceleration sensor signal x-axis reading 9
+- total_acc_x_10 : total acceleration sensor signal x-axis reading 10
+- total_acc_x_11 : total acceleration sensor signal x-axis reading 11
+- total_acc_x_12 : total acceleration sensor signal x-axis reading 12
+- total_acc_x_13 : total acceleration sensor signal x-axis reading 13
+- total_acc_x_14 : total acceleration sensor signal x-axis reading 14
+- total_acc_x_15 : total acceleration sensor signal x-axis reading 15
+- total_acc_x_16 : total acceleration sensor signal x-axis reading 16
+- total_acc_x_17 : total acceleration sensor signal x-axis reading 17
+- total_acc_x_18 : total acceleration sensor signal x-axis reading 18
+- total_acc_x_19 : total acceleration sensor signal x-axis reading 19
+- total_acc_x_20 : total acceleration sensor signal x-axis reading 20
+- total_acc_x_21 : total acceleration sensor signal x-axis reading 21
+- total_acc_x_22 : total acceleration sensor signal x-axis reading 22
+- total_acc_x_23 : total acceleration sensor signal x-axis reading 23
+- total_acc_x_24 : total acceleration sensor signal x-axis reading 24
+- total_acc_x_25 : total acceleration sensor signal x-axis reading 25
+- total_acc_x_26 : total acceleration sensor signal x-axis reading 26
+- total_acc_x_27 : total acceleration sensor signal x-axis reading 27
+- total_acc_x_28 : total acceleration sensor signal x-axis reading 28
+- total_acc_x_29 : total acceleration sensor signal x-axis reading 29
+- total_acc_x_30 : total acceleration sensor signal x-axis reading 30
+- total_acc_x_31 : total acceleration sensor signal x-axis reading 31
+- total_acc_x_32 : total acceleration sensor signal x-axis reading 32
+- total_acc_x_33 : total acceleration sensor signal x-axis reading 33
+- total_acc_x_34 : total acceleration sensor signal x-axis reading 34
+- total_acc_x_35 : total acceleration sensor signal x-axis reading 35
+- total_acc_x_36 : total acceleration sensor signal x-axis reading 36
+- total_acc_x_37 : total acceleration sensor signal x-axis reading 37
+- total_acc_x_38 : total acceleration sensor signal x-axis reading 38
+- total_acc_x_39 : total acceleration sensor signal x-axis reading 39
+- total_acc_x_40 : total acceleration sensor signal x-axis reading 40
+- total_acc_x_41 : total acceleration sensor signal x-axis reading 41
+- total_acc_x_42 : total acceleration sensor signal x-axis reading 42
+- total_acc_x_43 : total acceleration sensor signal x-axis reading 43
+- total_acc_x_44 : total acceleration sensor signal x-axis reading 44
+- total_acc_x_45 : total acceleration sensor signal x-axis reading 45
+- total_acc_x_46 : total acceleration sensor signal x-axis reading 46
+- total_acc_x_47 : total acceleration sensor signal x-axis reading 47
+- total_acc_x_48 : total acceleration sensor signal x-axis reading 48
+- total_acc_x_49 : total acceleration sensor signal x-axis reading 49
+- total_acc_x_50 : total acceleration sensor signal x-axis reading 50
+- total_acc_x_51 : total acceleration sensor signal x-axis reading 51
+- total_acc_x_52 : total acceleration sensor signal x-axis reading 52
+- total_acc_x_53 : total acceleration sensor signal x-axis reading 53
+- total_acc_x_54 : total acceleration sensor signal x-axis reading 54
+- total_acc_x_55 : total acceleration sensor signal x-axis reading 55
+- total_acc_x_56 : total acceleration sensor signal x-axis reading 56
+- total_acc_x_57 : total acceleration sensor signal x-axis reading 57
+- total_acc_x_58 : total acceleration sensor signal x-axis reading 58
+- total_acc_x_59 : total acceleration sensor signal x-axis reading 59
+- total_acc_x_60 : total acceleration sensor signal x-axis reading 60
+- total_acc_x_61 : total acceleration sensor signal x-axis reading 61
+- total_acc_x_62 : total acceleration sensor signal x-axis reading 62
+- total_acc_x_63 : total acceleration sensor signal x-axis reading 63
+- total_acc_x_64 : total acceleration sensor signal x-axis reading 64
+- total_acc_x_65 : total acceleration sensor signal x-axis reading 65
+- total_acc_x_66 : total acceleration sensor signal x-axis reading 66
+- total_acc_x_67 : total acceleration sensor signal x-axis reading 67
+- total_acc_x_68 : total acceleration sensor signal x-axis reading 68
+- total_acc_x_69 : total acceleration sensor signal x-axis reading 69
+- total_acc_x_70 : total acceleration sensor signal x-axis reading 70
+- total_acc_x_71 : total acceleration sensor signal x-axis reading 71
+- total_acc_x_72 : total acceleration sensor signal x-axis reading 72
+- total_acc_x_73 : total acceleration sensor signal x-axis reading 73
+- total_acc_x_74 : total acceleration sensor signal x-axis reading 74
+- total_acc_x_75 : total acceleration sensor signal x-axis reading 75
+- total_acc_x_76 : total acceleration sensor signal x-axis reading 76
+- total_acc_x_77 : total acceleration sensor signal x-axis reading 77
+- total_acc_x_78 : total acceleration sensor signal x-axis reading 78
+- total_acc_x_79 : total acceleration sensor signal x-axis reading 79
+- total_acc_x_80 : total acceleration sensor signal x-axis reading 80
+- total_acc_x_81 : total acceleration sensor signal x-axis reading 81
+- total_acc_x_82 : total acceleration sensor signal x-axis reading 82
+- total_acc_x_83 : total acceleration sensor signal x-axis reading 83
+- total_acc_x_84 : total acceleration sensor signal x-axis reading 84
+- total_acc_x_85 : total acceleration sensor signal x-axis reading 85
+- total_acc_x_86 : total acceleration sensor signal x-axis reading 86
+- total_acc_x_87 : total acceleration sensor signal x-axis reading 87
+- total_acc_x_88 : total acceleration sensor signal x-axis reading 88
+- total_acc_x_89 : total acceleration sensor signal x-axis reading 89
+- total_acc_x_90 : total acceleration sensor signal x-axis reading 90
+- total_acc_x_91 : total acceleration sensor signal x-axis reading 91
+- total_acc_x_92 : total acceleration sensor signal x-axis reading 92
+- total_acc_x_93 : total acceleration sensor signal x-axis reading 93
+- total_acc_x_94 : total acceleration sensor signal x-axis reading 94
+- total_acc_x_95 : total acceleration sensor signal x-axis reading 95
+- total_acc_x_96 : total acceleration sensor signal x-axis reading 96
+- total_acc_x_97 : total acceleration sensor signal x-axis reading 97
+- total_acc_x_98 : total acceleration sensor signal x-axis reading 98
+- total_acc_x_99 : total acceleration sensor signal x-axis reading 99
+- total_acc_x_100 : total acceleration sensor signal x-axis reading 100
+- total_acc_x_101 : total acceleration sensor signal x-axis reading 101
+- total_acc_x_102 : total acceleration sensor signal x-axis reading 102
+- total_acc_x_103 : total acceleration sensor signal x-axis reading 103
+- total_acc_x_104 : total acceleration sensor signal x-axis reading 104
+- total_acc_x_105 : total acceleration sensor signal x-axis reading 105
+- total_acc_x_106 : total acceleration sensor signal x-axis reading 106
+- total_acc_x_107 : total acceleration sensor signal x-axis reading 107
+- total_acc_x_108 : total acceleration sensor signal x-axis reading 108
+- total_acc_x_109 : total acceleration sensor signal x-axis reading 109
+- total_acc_x_110 : total acceleration sensor signal x-axis reading 110
+- total_acc_x_111 : total acceleration sensor signal x-axis reading 111
+- total_acc_x_112 : total acceleration sensor signal x-axis reading 112
+- total_acc_x_113 : total acceleration sensor signal x-axis reading 113
+- total_acc_x_114 : total acceleration sensor signal x-axis reading 114
+- total_acc_x_115 : total acceleration sensor signal x-axis reading 115
+- total_acc_x_116 : total acceleration sensor signal x-axis reading 116
+- total_acc_x_117 : total acceleration sensor signal x-axis reading 117
+- total_acc_x_118 : total acceleration sensor signal x-axis reading 118
+- total_acc_x_119 : total acceleration sensor signal x-axis reading 119
+- total_acc_x_120 : total acceleration sensor signal x-axis reading 120
+- total_acc_x_121 : total acceleration sensor signal x-axis reading 121
+- total_acc_x_122 : total acceleration sensor signal x-axis reading 122
+- total_acc_x_123 : total acceleration sensor signal x-axis reading 123
+- total_acc_x_124 : total acceleration sensor signal x-axis reading 124
+- total_acc_x_125 : total acceleration sensor signal x-axis reading 125
+- total_acc_x_126 : total acceleration sensor signal x-axis reading 126
+- total_acc_x_127 : total acceleration sensor signal x-axis reading 127
+- total_acc_x_128 : total acceleration sensor signal x-axis reading 128
+- total_acc_y_1 : total acceleration sensor signal y-axis reading 1
+- total_acc_y_2 : total acceleration sensor signal y-axis reading 2
+- total_acc_y_3 : total acceleration sensor signal y-axis reading 3
+- total_acc_y_4 : total acceleration sensor signal y-axis reading 4
+- total_acc_y_5 : total acceleration sensor signal y-axis reading 5
+- total_acc_y_6 : total acceleration sensor signal y-axis reading 6
+- total_acc_y_7 : total acceleration sensor signal y-axis reading 7
+- total_acc_y_8 : total acceleration sensor signal y-axis reading 8
+- total_acc_y_9 : total acceleration sensor signal y-axis reading 9
+- total_acc_y_10 : total acceleration sensor signal y-axis reading 10
+- total_acc_y_11 : total acceleration sensor signal y-axis reading 11
+- total_acc_y_12 : total acceleration sensor signal y-axis reading 12
+- total_acc_y_13 : total acceleration sensor signal y-axis reading 13
+- total_acc_y_14 : total acceleration sensor signal y-axis reading 14
+- total_acc_y_15 : total acceleration sensor signal y-axis reading 15
+- total_acc_y_16 : total acceleration sensor signal y-axis reading 16
+- total_acc_y_17 : total acceleration sensor signal y-axis reading 17
+- total_acc_y_18 : total acceleration sensor signal y-axis reading 18
+- total_acc_y_19 : total acceleration sensor signal y-axis reading 19
+- total_acc_y_20 : total acceleration sensor signal y-axis reading 20
+- total_acc_y_21 : total acceleration sensor signal y-axis reading 21
+- total_acc_y_22 : total acceleration sensor signal y-axis reading 22
+- total_acc_y_23 : total acceleration sensor signal y-axis reading 23
+- total_acc_y_24 : total acceleration sensor signal y-axis reading 24
+- total_acc_y_25 : total acceleration sensor signal y-axis reading 25
+- total_acc_y_26 : total acceleration sensor signal y-axis reading 26
+- total_acc_y_27 : total acceleration sensor signal y-axis reading 27
+- total_acc_y_28 : total acceleration sensor signal y-axis reading 28
+- total_acc_y_29 : total acceleration sensor signal y-axis reading 29
+- total_acc_y_30 : total acceleration sensor signal y-axis reading 30
+- total_acc_y_31 : total acceleration sensor signal y-axis reading 31
+- total_acc_y_32 : total acceleration sensor signal y-axis reading 32
+- total_acc_y_33 : total acceleration sensor signal y-axis reading 33
+- total_acc_y_34 : total acceleration sensor signal y-axis reading 34
+- total_acc_y_35 : total acceleration sensor signal y-axis reading 35
+- total_acc_y_36 : total acceleration sensor signal y-axis reading 36
+- total_acc_y_37 : total acceleration sensor signal y-axis reading 37
+- total_acc_y_38 : total acceleration sensor signal y-axis reading 38
+- total_acc_y_39 : total acceleration sensor signal y-axis reading 39
+- total_acc_y_40 : total acceleration sensor signal y-axis reading 40
+- total_acc_y_41 : total acceleration sensor signal y-axis reading 41
+- total_acc_y_42 : total acceleration sensor signal y-axis reading 42
+- total_acc_y_43 : total acceleration sensor signal y-axis reading 43
+- total_acc_y_44 : total acceleration sensor signal y-axis reading 44
+- total_acc_y_45 : total acceleration sensor signal y-axis reading 45
+- total_acc_y_46 : total acceleration sensor signal y-axis reading 46
+- total_acc_y_47 : total acceleration sensor signal y-axis reading 47
+- total_acc_y_48 : total acceleration sensor signal y-axis reading 48
+- total_acc_y_49 : total acceleration sensor signal y-axis reading 49
+- total_acc_y_50 : total acceleration sensor signal y-axis reading 50
+- total_acc_y_51 : total acceleration sensor signal y-axis reading 51
+- total_acc_y_52 : total acceleration sensor signal y-axis reading 52
+- total_acc_y_53 : total acceleration sensor signal y-axis reading 53
+- total_acc_y_54 : total acceleration sensor signal y-axis reading 54
+- total_acc_y_55 : total acceleration sensor signal y-axis reading 55
+- total_acc_y_56 : total acceleration sensor signal y-axis reading 56
+- total_acc_y_57 : total acceleration sensor signal y-axis reading 57
+- total_acc_y_58 : total acceleration sensor signal y-axis reading 58
+- total_acc_y_59 : total acceleration sensor signal y-axis reading 59
+- total_acc_y_60 : total acceleration sensor signal y-axis reading 60
+- total_acc_y_61 : total acceleration sensor signal y-axis reading 61
+- total_acc_y_62 : total acceleration sensor signal y-axis reading 62
+- total_acc_y_63 : total acceleration sensor signal y-axis reading 63
+- total_acc_y_64 : total acceleration sensor signal y-axis reading 64
+- total_acc_y_65 : total acceleration sensor signal y-axis reading 65
+- total_acc_y_66 : total acceleration sensor signal y-axis reading 66
+- total_acc_y_67 : total acceleration sensor signal y-axis reading 67
+- total_acc_y_68 : total acceleration sensor signal y-axis reading 68
+- total_acc_y_69 : total acceleration sensor signal y-axis reading 69
+- total_acc_y_70 : total acceleration sensor signal y-axis reading 70
+- total_acc_y_71 : total acceleration sensor signal y-axis reading 71
+- total_acc_y_72 : total acceleration sensor signal y-axis reading 72
+- total_acc_y_73 : total acceleration sensor signal y-axis reading 73
+- total_acc_y_74 : total acceleration sensor signal y-axis reading 74
+- total_acc_y_75 : total acceleration sensor signal y-axis reading 75
+- total_acc_y_76 : total acceleration sensor signal y-axis reading 76
+- total_acc_y_77 : total acceleration sensor signal y-axis reading 77
+- total_acc_y_78 : total acceleration sensor signal y-axis reading 78
+- total_acc_y_79 : total acceleration sensor signal y-axis reading 79
+- total_acc_y_80 : total acceleration sensor signal y-axis reading 80
+- total_acc_y_81 : total acceleration sensor signal y-axis reading 81
+- total_acc_y_82 : total acceleration sensor signal y-axis reading 82
+- total_acc_y_83 : total acceleration sensor signal y-axis reading 83
+- total_acc_y_84 : total acceleration sensor signal y-axis reading 84
+- total_acc_y_85 : total acceleration sensor signal y-axis reading 85
+- total_acc_y_86 : total acceleration sensor signal y-axis reading 86
+- total_acc_y_87 : total acceleration sensor signal y-axis reading 87
+- total_acc_y_88 : total acceleration sensor signal y-axis reading 88
+- total_acc_y_89 : total acceleration sensor signal y-axis reading 89
+- total_acc_y_90 : total acceleration sensor signal y-axis reading 90
+- total_acc_y_91 : total acceleration sensor signal y-axis reading 91
+- total_acc_y_92 : total acceleration sensor signal y-axis reading 92
+- total_acc_y_93 : total acceleration sensor signal y-axis reading 93
+- total_acc_y_94 : total acceleration sensor signal y-axis reading 94
+- total_acc_y_95 : total acceleration sensor signal y-axis reading 95
+- total_acc_y_96 : total acceleration sensor signal y-axis reading 96
+- total_acc_y_97 : total acceleration sensor signal y-axis reading 97
+- total_acc_y_98 : total acceleration sensor signal y-axis reading 98
+- total_acc_y_99 : total acceleration sensor signal y-axis reading 99
+- total_acc_y_100 : total acceleration sensor signal y-axis reading 100
+- total_acc_y_101 : total acceleration sensor signal y-axis reading 101
+- total_acc_y_102 : total acceleration sensor signal y-axis reading 102
+- total_acc_y_103 : total acceleration sensor signal y-axis reading 103
+- total_acc_y_104 : total acceleration sensor signal y-axis reading 104
+- total_acc_y_105 : total acceleration sensor signal y-axis reading 105
+- total_acc_y_106 : total acceleration sensor signal y-axis reading 106
+- total_acc_y_107 : total acceleration sensor signal y-axis reading 107
+- total_acc_y_108 : total acceleration sensor signal y-axis reading 108
+- total_acc_y_109 : total acceleration sensor signal y-axis reading 109
+- total_acc_y_110 : total acceleration sensor signal y-axis reading 110
+- total_acc_y_111 : total acceleration sensor signal y-axis reading 111
+- total_acc_y_112 : total acceleration sensor signal y-axis reading 112
+- total_acc_y_113 : total acceleration sensor signal y-axis reading 113
+- total_acc_y_114 : total acceleration sensor signal y-axis reading 114
+- total_acc_y_115 : total acceleration sensor signal y-axis reading 115
+- total_acc_y_116 : total acceleration sensor signal y-axis reading 116
+- total_acc_y_117 : total acceleration sensor signal y-axis reading 117
+- total_acc_y_118 : total acceleration sensor signal y-axis reading 118
+- total_acc_y_119 : total acceleration sensor signal y-axis reading 119
+- total_acc_y_120 : total acceleration sensor signal y-axis reading 120
+- total_acc_y_121 : total acceleration sensor signal y-axis reading 121
+- total_acc_y_122 : total acceleration sensor signal y-axis reading 122
+- total_acc_y_123 : total acceleration sensor signal y-axis reading 123
+- total_acc_y_124 : total acceleration sensor signal y-axis reading 124
+- total_acc_y_125 : total acceleration sensor signal y-axis reading 125
+- total_acc_y_126 : total acceleration sensor signal y-axis reading 126
+- total_acc_y_127 : total acceleration sensor signal y-axis reading 127
+- total_acc_y_128 : total acceleration sensor signal y-axis reading 128
+- total_acc_z_1 : total acceleration sensor signal z-axis reading 1
+- total_acc_z_2 : total acceleration sensor signal z-axis reading 2
+- total_acc_z_3 : total acceleration sensor signal z-axis reading 3
+- total_acc_z_4 : total acceleration sensor signal z-axis reading 4
+- total_acc_z_5 : total acceleration sensor signal z-axis reading 5
+- total_acc_z_6 : total acceleration sensor signal z-axis reading 6
+- total_acc_z_7 : total acceleration sensor signal z-axis reading 7
+- total_acc_z_8 : total acceleration sensor signal z-axis reading 8
+- total_acc_z_9 : total acceleration sensor signal z-axis reading 9
+- total_acc_z_10 : total acceleration sensor signal z-axis reading 10
+- total_acc_z_11 : total acceleration sensor signal z-axis reading 11
+- total_acc_z_12 : total acceleration sensor signal z-axis reading 12
+- total_acc_z_13 : total acceleration sensor signal z-axis reading 13
+- total_acc_z_14 : total acceleration sensor signal z-axis reading 14
+- total_acc_z_15 : total acceleration sensor signal z-axis reading 15
+- total_acc_z_16 : total acceleration sensor signal z-axis reading 16
+- total_acc_z_17 : total acceleration sensor signal z-axis reading 17
+- total_acc_z_18 : total acceleration sensor signal z-axis reading 18
+- total_acc_z_19 : total acceleration sensor signal z-axis reading 19
+- total_acc_z_20 : total acceleration sensor signal z-axis reading 20
+- total_acc_z_21 : total acceleration sensor signal z-axis reading 21
+- total_acc_z_22 : total acceleration sensor signal z-axis reading 22
+- total_acc_z_23 : total acceleration sensor signal z-axis reading 23
+- total_acc_z_24 : total acceleration sensor signal z-axis reading 24
+- total_acc_z_25 : total acceleration sensor signal z-axis reading 25
+- total_acc_z_26 : total acceleration sensor signal z-axis reading 26
+- total_acc_z_27 : total acceleration sensor signal z-axis reading 27
+- total_acc_z_28 : total acceleration sensor signal z-axis reading 28
+- total_acc_z_29 : total acceleration sensor signal z-axis reading 29
+- total_acc_z_30 : total acceleration sensor signal z-axis reading 30
+- total_acc_z_31 : total acceleration sensor signal z-axis reading 31
+- total_acc_z_32 : total acceleration sensor signal z-axis reading 32
+- total_acc_z_33 : total acceleration sensor signal z-axis reading 33
+- total_acc_z_34 : total acceleration sensor signal z-axis reading 34
+- total_acc_z_35 : total acceleration sensor signal z-axis reading 35
+- total_acc_z_36 : total acceleration sensor signal z-axis reading 36
+- total_acc_z_37 : total acceleration sensor signal z-axis reading 37
+- total_acc_z_38 : total acceleration sensor signal z-axis reading 38
+- total_acc_z_39 : total acceleration sensor signal z-axis reading 39
+- total_acc_z_40 : total acceleration sensor signal z-axis reading 40
+- total_acc_z_41 : total acceleration sensor signal z-axis reading 41
+- total_acc_z_42 : total acceleration sensor signal z-axis reading 42
+- total_acc_z_43 : total acceleration sensor signal z-axis reading 43
+- total_acc_z_44 : total acceleration sensor signal z-axis reading 44
+- total_acc_z_45 : total acceleration sensor signal z-axis reading 45
+- total_acc_z_46 : total acceleration sensor signal z-axis reading 46
+- total_acc_z_47 : total acceleration sensor signal z-axis reading 47
+- total_acc_z_48 : total acceleration sensor signal z-axis reading 48
+- total_acc_z_49 : total acceleration sensor signal z-axis reading 49
+- total_acc_z_50 : total acceleration sensor signal z-axis reading 50
+- total_acc_z_51 : total acceleration sensor signal z-axis reading 51
+- total_acc_z_52 : total acceleration sensor signal z-axis reading 52
+- total_acc_z_53 : total acceleration sensor signal z-axis reading 53
+- total_acc_z_54 : total acceleration sensor signal z-axis reading 54
+- total_acc_z_55 : total acceleration sensor signal z-axis reading 55
+- total_acc_z_56 : total acceleration sensor signal z-axis reading 56
+- total_acc_z_57 : total acceleration sensor signal z-axis reading 57
+- total_acc_z_58 : total acceleration sensor signal z-axis reading 58
+- total_acc_z_59 : total acceleration sensor signal z-axis reading 59
+- total_acc_z_60 : total acceleration sensor signal z-axis reading 60
+- total_acc_z_61 : total acceleration sensor signal z-axis reading 61
+- total_acc_z_62 : total acceleration sensor signal z-axis reading 62
+- total_acc_z_63 : total acceleration sensor signal z-axis reading 63
+- total_acc_z_64 : total acceleration sensor signal z-axis reading 64
+- total_acc_z_65 : total acceleration sensor signal z-axis reading 65
+- total_acc_z_66 : total acceleration sensor signal z-axis reading 66
+- total_acc_z_67 : total acceleration sensor signal z-axis reading 67
+- total_acc_z_68 : total acceleration sensor signal z-axis reading 68
+- total_acc_z_69 : total acceleration sensor signal z-axis reading 69
+- total_acc_z_70 : total acceleration sensor signal z-axis reading 70
+- total_acc_z_71 : total acceleration sensor signal z-axis reading 71
+- total_acc_z_72 : total acceleration sensor signal z-axis reading 72
+- total_acc_z_73 : total acceleration sensor signal z-axis reading 73
+- total_acc_z_74 : total acceleration sensor signal z-axis reading 74
+- total_acc_z_75 : total acceleration sensor signal z-axis reading 75
+- total_acc_z_76 : total acceleration sensor signal z-axis reading 76
+- total_acc_z_77 : total acceleration sensor signal z-axis reading 77
+- total_acc_z_78 : total acceleration sensor signal z-axis reading 78
+- total_acc_z_79 : total acceleration sensor signal z-axis reading 79
+- total_acc_z_80 : total acceleration sensor signal z-axis reading 80
+- total_acc_z_81 : total acceleration sensor signal z-axis reading 81
+- total_acc_z_82 : total acceleration sensor signal z-axis reading 82
+- total_acc_z_83 : total acceleration sensor signal z-axis reading 83
+- total_acc_z_84 : total acceleration sensor signal z-axis reading 84
+- total_acc_z_85 : total acceleration sensor signal z-axis reading 85
+- total_acc_z_86 : total acceleration sensor signal z-axis reading 86
+- total_acc_z_87 : total acceleration sensor signal z-axis reading 87
+- total_acc_z_88 : total acceleration sensor signal z-axis reading 88
+- total_acc_z_89 : total acceleration sensor signal z-axis reading 89
+- total_acc_z_90 : total acceleration sensor signal z-axis reading 90
+- total_acc_z_91 : total acceleration sensor signal z-axis reading 91
+- total_acc_z_92 : total acceleration sensor signal z-axis reading 92
+- total_acc_z_93 : total acceleration sensor signal z-axis reading 93
+- total_acc_z_94 : total acceleration sensor signal z-axis reading 94
+- total_acc_z_95 : total acceleration sensor signal z-axis reading 95
+- total_acc_z_96 : total acceleration sensor signal z-axis reading 96
+- total_acc_z_97 : total acceleration sensor signal z-axis reading 97
+- total_acc_z_98 : total acceleration sensor signal z-axis reading 98
+- total_acc_z_99 : total acceleration sensor signal z-axis reading 99
+- total_acc_z_100 : total acceleration sensor signal z-axis reading 100
+- total_acc_z_101 : total acceleration sensor signal z-axis reading 101
+- total_acc_z_102 : total acceleration sensor signal z-axis reading 102
+- total_acc_z_103 : total acceleration sensor signal z-axis reading 103
+- total_acc_z_104 : total acceleration sensor signal z-axis reading 104
+- total_acc_z_105 : total acceleration sensor signal z-axis reading 105
+- total_acc_z_106 : total acceleration sensor signal z-axis reading 106
+- total_acc_z_107 : total acceleration sensor signal z-axis reading 107
+- total_acc_z_108 : total acceleration sensor signal z-axis reading 108
+- total_acc_z_109 : total acceleration sensor signal z-axis reading 109
+- total_acc_z_110 : total acceleration sensor signal z-axis reading 110
+- total_acc_z_111 : total acceleration sensor signal z-axis reading 111
+- total_acc_z_112 : total acceleration sensor signal z-axis reading 112
+- total_acc_z_113 : total acceleration sensor signal z-axis reading 113
+- total_acc_z_114 : total acceleration sensor signal z-axis reading 114
+- total_acc_z_115 : total acceleration sensor signal z-axis reading 115
+- total_acc_z_116 : total acceleration sensor signal z-axis reading 116
+- total_acc_z_117 : total acceleration sensor signal z-axis reading 117
+- total_acc_z_118 : total acceleration sensor signal z-axis reading 118
+- total_acc_z_119 : total acceleration sensor signal z-axis reading 119
+- total_acc_z_120 : total acceleration sensor signal z-axis reading 120
+- total_acc_z_121 : total acceleration sensor signal z-axis reading 121
+- total_acc_z_122 : total acceleration sensor signal z-axis reading 122
+- total_acc_z_123 : total acceleration sensor signal z-axis reading 123
+- total_acc_z_124 : total acceleration sensor signal z-axis reading 124
+- total_acc_z_125 : total acceleration sensor signal z-axis reading 125
+- total_acc_z_126 : total acceleration sensor signal z-axis reading 126
+- total_acc_z_127 : total acceleration sensor signal z-axis reading 127
+- total_acc_z_128 : total acceleration sensor signal z-axis reading 128
