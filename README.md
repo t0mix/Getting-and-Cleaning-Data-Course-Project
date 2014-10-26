@@ -2,14 +2,13 @@
 
 ## run_analysis.R description
 
-make a tidy dataset from the train set and another from the test set with the same columns, merge train and test tidy datasets together and write the resulting merged tidy dataset to a text file
-
-Tidy dataset are created for train and test data as follow:
+Merge train and test datasets together once train and test data are built as per the following steps:
 - read subject id
 - column append activity code (code are replaced by corresponding activity labels)
 - column append read activity and features (column names are replaced by corresponding feature labels)
 - column append 3 sets of sensor signals XYZ data
 
+Make a tidy dataset from resulting merged train and test datasets with average and standard deviation of each observation by subject and activity combinations. Write this to a text file named tidydata.txt
 
 ## code book describing the variables
 
